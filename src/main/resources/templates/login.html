@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--[if lt IE 9]>
+    <script src="/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="styleSheet"  th:href="@{/css/login.css}" />
+</head>
+<body>
+<div id="mydiv">
+    <div id="content-center">
+        <h2>欢迎登录</h2>
+        <form action="/index" method="get" id="loginForm">
+            <div class="input_control">
+                <input type="text" id="username" name="username" class="input_text" placeholder="用户名"/>
+            </div>
+            <div class="input_control">
+                <input type="password" id="password" name="password" class="input_text" placeholder="密码"/>
+            </div>
+            <div class="input_control">
+                <input type = "text" id="input_vericode" name="input_vericode" placeholder="验证码"/>
+                <input type="button" id="code" onclick="createCode()" title='点击更换验证码' />
+            </div>
+            <div class="input_control">
+                <button class="button submit" type="submit">登录</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery 3 -->
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{/js/canvas-particle.js}"></script>
+<script th:src="@{/js/veri-code.js}"></script>
+<script>
+    window.onload = function() {
+        //配置
+        var config = {
+            vx: 4,	//小球x轴速度,正为右，负为左
+            vy: 4,	//小球y轴速度
+            height: 2,	//小球高宽，其实为正方形，所以不宜太大
+            width: 2,
+            count: 200,		//点个数
+            color: "121, 162, 185", 	//点颜色
+            stroke: "130,255,255", 		//线条颜色
+            dist: 6000, 	//点吸附距离
+            e_dist: 20000, 	//鼠标吸附加速距离
+            max_conn: 10 	//点到点最大连接数
+        }
+
+        //调用
+        CanvasParticle(config);
+    }
+</script>
+
+<script>
+    createCode();
+    $().ready(function() {
+        jQuery.validator.addMethod("password", function (value, element, param) {
+            var rex = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
+            return this.optional(element) || (rex.test(value));
+        }, "必须包含数字、字母或特殊字符");
+        $("#loginForm").validate({
+            rules:{
+                username: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                password: {
+                    required: true,
+                    rangelength: [6,20],
+                    password: true
+                },
+                input_vericode: {
+                    required: true,
+                    minlength: 4
+                }
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent());
+            },
+            errorElement: "span"
+        });
+    });
+</script>
+</body>
+</html>

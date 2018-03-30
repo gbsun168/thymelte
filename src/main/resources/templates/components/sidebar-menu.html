@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Sidebar Menu -->
+<ul th:fragment="sidebar-menu" class="sidebar-menu" data-widget="tree">
+    <!--<li class="header">HEADER</li>-->
+    <!-- Optionally, you can add icons to the links -->
+    <li class="active"><a href="/index"><i class="fa fa-link"></i> <span>Link</span></a></li>
+    <li><a href="/second"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+    <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="/third">Link in level 2</a></li>
+            <li><a href="/forth">Link in level 2</a></li>
+        </ul>
+    </li>
+</ul>
+<!-- /.sidebar-menu -->
+</body>
+</html>

@@ -1,0 +1,15 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/ #默认值
+    suffix: .html
+    mode: LEGACYHTML5 #启用不严格检查html
+    encoding: UTF-8
+    content-type: text/html
+    cache: false #页面热部署
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: 8090
