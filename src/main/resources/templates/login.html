@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>登录</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <!--[if lt IE 9]>
     <script src="/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <script src="/webjars/respond/1.4.2/dest/respond.min.js"></script>
@@ -15,7 +17,15 @@
 <div id="mydiv">
     <div id="content-center">
         <h2>欢迎登录</h2>
-        <form action="/index" method="get" id="loginForm">
+        <div th:if="${param.error}">
+            <p style="text-align:center ;color: red;" >用户名或者密码错误</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p style="text-align:center ;color: red;" >您已退出登录</p>
+        </div>
+        <div th:if="${param.message}">
+        </div>
+        <form th:action="@{/login}" method="post" id="loginForm">
             <div class="input_control">
                 <input type="text" id="username" name="username" class="input_text" placeholder="用户名"/>
             </div>
@@ -53,7 +63,7 @@
             dist: 6000, 	//点吸附距离
             e_dist: 20000, 	//鼠标吸附加速距离
             max_conn: 10 	//点到点最大连接数
-        }
+        };
 
         //调用
         CanvasParticle(config);
