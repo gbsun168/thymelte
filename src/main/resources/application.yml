@@ -7,9 +7,27 @@ spring:
     content-type: text/html
     cache: false #页面热部署
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/thymelte?useUnicode=true&amp;characterEncoding=UTF-8
+    username: ENC(hTpbG9fq+7P3SntmXuNtDxbtWDqRuPV+)
+    password: ENC(abdq6LyOspryFQHCqzEMTxRozyJVjIA4)
+    driver-class-name: org.postgresql.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
 security:
   basic:
     enabled: false
 
+jasypt:
+  encryptor:
+    password: 19941017
+
 server:
   port: 8090
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    hibernate: ERROR
+  file: log/thymelte.log
