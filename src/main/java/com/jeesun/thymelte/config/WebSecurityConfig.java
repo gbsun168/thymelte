@@ -17,12 +17,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DruidDataSource dataSource;
 
+    @Autowired
+    private AuthSuccessHandler authSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/index")
                 .failureUrl("/login?error").permitAll()
+                .successHandler(authSuccessHandler)
                 .and()
                 .logout().permitAll()
                 .and().authorizeRequests()
