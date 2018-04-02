@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public CustomUserDetailsService() {
         super();
-        sqlLoadUser = "select id,username,password,enabled,phone,email from users where username=?";
+        sqlLoadUser = "select id,username,password,enabled,phone,email from users where username=? OR phone=? OR email=?";
         sqlLoadAuthorities = "select authority from authorities where username = ?";
 
         myUserDetailsRowMapper = (rs, i) -> new UserEntity(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getString("phone"), rs.getString("email"));
@@ -41,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         try{
-            UserEntity userFromQuery = jdbcTemplate.queryForObject(sqlLoadUser, myUserDetailsRowMapper, s);
+            UserEntity userFromQuery = jdbcTemplate.queryForObject(sqlLoadUser, myUserDetailsRowMapper, s, s, s);
             logger.error("查询得到用户：{}", userFromQuery);
             List<GrantedAuthority> authorities = jdbcTemplate.query(sqlLoadAuthorities, authorityRowMapper, userFromQuery.getUsername());
             logger.error("得到其权限：{}", authorities);

@@ -1,0 +1,44 @@
+package com.jeesun.thymelte.custom;
+
+import com.jeesun.thymelte.domain.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+
+@Component
+public class CustomLoginAuthProvider implements AuthenticationProvider {
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String username = authentication.getName();
+        String password = (String) authentication.getCredentials();
+        UserEntity userEntity = (UserEntity) userDetailsService.loadUserByUsername(username);
+        if (null == userEntity){
+            throw new BadCredentialsException("用户名错误");
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
+
+        if(!encoder.matches(password, userEntity.getPassword())){
+            throw new BadCredentialsException("密码错误");
+        }
+
+        Collection<? extends GrantedAuthority> authorities = userEntity.getAuthorities();
+        return new UsernamePasswordAuthenticationToken(userEntity, password, authorities);
+    }
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return true;
+    }
+}
