@@ -122,17 +122,17 @@
                         <!-- The user image in the navbar-->
                         <img th:src="@{/img/user-160x160.png}" class="user-image" alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs" sec:authentication="name"></span>
+                        <span class="hidden-xs">用户</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
                             <img th:src="@{/img/user-160x160.png}" class="img-circle" alt="User Image">
 
-                            <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
-                            </p>
+                            <div>
+                                <p sec:authentication="name"></p>
+                                <small>这个人很懒，啥也没写</small>
+                            </>
                         </li>
                         <!-- Menu Body -->
                         <!--<li class="user-body">
