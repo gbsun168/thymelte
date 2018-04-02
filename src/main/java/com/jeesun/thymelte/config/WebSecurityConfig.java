@@ -1,6 +1,7 @@
 package com.jeesun.thymelte.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.jeesun.thymelte.custom.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthSuccessHandler authSuccessHandler;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,10 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username,password,enabled from users where username = ?")
-                .authoritiesByUsernameQuery("select username,authority from authorities where username = ?")
-                .passwordEncoder(new BCryptPasswordEncoder(11));
+        auth.userDetailsService(userDetailsService);
+        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(new BCryptPasswordEncoder(11));
     }
 
     /**
