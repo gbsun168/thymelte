@@ -29,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //logoutSuccessUrl如果设为/login，那么退出后，
+        //会重新自动创建session，触发OnLineCountListener的sessionCreated方法，造成在线人数不准。
         http
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/index")

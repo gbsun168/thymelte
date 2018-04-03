@@ -30,6 +30,8 @@ jasypt:
 
 server:
   port: 8090
+  session:
+    timeout: 1800
 
 logging:
   level:
