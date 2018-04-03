@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/login?logout")
                 .and()
                 .csrf()
                 .and().authorizeRequests()
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe();
 
-        http.sessionManagement().invalidSessionUrl("/login").maximumSessions(1).expiredUrl("/login");
+        http.sessionManagement().invalidSessionUrl("/login?logout").maximumSessions(1).expiredUrl("/login?logout");
     }
 
     @Override
