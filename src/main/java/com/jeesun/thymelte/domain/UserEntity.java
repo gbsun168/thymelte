@@ -84,14 +84,16 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", authorities=" + authorities +
-                '}';
+        return this.username;
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
     }
 }

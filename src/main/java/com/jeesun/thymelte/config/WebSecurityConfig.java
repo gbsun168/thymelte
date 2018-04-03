@@ -48,6 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .rememberMe();
+
+        http.sessionManagement().invalidSessionUrl("/login").maximumSessions(1).expiredUrl("/login");
     }
 
     @Override
