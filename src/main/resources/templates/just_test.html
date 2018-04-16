@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload-ui.css">
+    <title>Document</title>
+    <style>
+        img{
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <label for="fileupload" class="
+btn btn-default">更换头像</label>
+    <input id="fileupload" type="file" name="files[]" multiple style="display:none">
+</div>
+<span class="proportion"></span>
+<!-- 上传进度条及状态： -->
+<div class="progress" style="width: 100px">
+    <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
+    <div class="upstatus" style="margin-top:10px;"></div>
+</div>
+<!-- 预览框： -->
+<div class="preview" style="margin-top:20px;"></div>
+
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script src="/webjars/jquery-file-upload/9.18.0/js/vendor/jquery.ui.widget.js"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.iframe-transport.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload.js}"></script>
+<script src="/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-process.js"></script>
+<script src="/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-validate.js"></script>
+<script>
+    $(function () {
+        'use strict';
+
+        //必须加这段代码，不然无法上传
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        var uploader = $('#fileupload');
+        uploader.fileupload({
+            url: "/upload",
+            dataType: 'json',
+            type: "post",
+            multipart: true,
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            maxFileSize: 1000 * 1024 * 1024,
+            maxNumberOfFiles: 50,
+            done: function (e, data) {
+                var result = data.result;
+                //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+                //注意data要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
+                //返回的数据在data.result中，这里dataType中设置的返回的数据类型为json
+                if(200 == result.code) {
+                    // 上传成功：
+                    $(".preview").append("<div style='margin-top:10px;'><img src="+result.data + "></div>");
+                    $(".preview").append("<div><button type='button'>删除</button></div>");
+                } else {
+                    // 上传失败：
+                    $(".upstatus").append("<div style='color:red;'>"+result.msg+"</div>");
+                }
+            },messages: {
+                maxFileSize: '文件大小超过限制',
+                acceptFileTypes: '文件格式不支持'
+            },progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $(".progress-bar").css("width", progress + "%");
+                $(".proportion").html("上传总进度："+progress+"%");
+            },processfail: function (e, data) {
+                var currentFile = data.files[data.index];
+                if (data.files.error && currentFile.error) {
+                    alert(currentFile.error);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

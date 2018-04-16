@@ -1,24 +1,27 @@
 package com.jeesun.thymelte.custom;
 
+import com.jeesun.thymelte.domain.QrCode;
 import com.jeesun.thymelte.domain.UserEntity;
+import com.jeesun.thymelte.repository.QrCodeRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 @Component
-public class CustomLoginAuthProvider implements AuthenticationProvider {
-    private static final Logger logger = Logger.getLogger(CustomLoginAuthProvider.class);
+public class CustomTokenAuthProvider implements AuthenticationProvider {
+    private static final Logger logger = Logger.getLogger(CustomTokenAuthProvider.class);
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private QrCodeRepository qrCodeRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -30,18 +33,24 @@ public class CustomLoginAuthProvider implements AuthenticationProvider {
             throw new BadCredentialsException("用户名错误");
         }
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
-
-        if(!encoder.matches(password, userEntity.getPassword())){
-            throw new BadCredentialsException("密码错误");
+        String sid = "";
+        QrCode qrCode = qrCodeRepository.findBySid(password);
+        if(password.length() >= 32){
+            //说明是uuid，此时是扫码登录
+            sid = qrCode.getSid();
+            if (username.equals(qrCode.getUsername())){
+                logger.info("用户名和绑定的一样");
+            }else{
+                throw new BadCredentialsException("uuid错误");
+            }
         }
 
         Collection<? extends GrantedAuthority> authorities = userEntity.getAuthorities();
-        return new UsernamePasswordAuthenticationToken(userEntity, password, authorities);
+        return new UsernameTokenAuthenticationToken(authorities, username, qrCode.getToken(), sid);
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return UsernamePasswordAuthenticationToken.class.equals(aClass);
+        return UsernameTokenAuthenticationToken.class.equals(aClass);
     }
 }

@@ -7,6 +7,11 @@ spring:
     content-type: text/html
     cache: false #页面热部署
 
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
   datasource:
     url: jdbc:postgresql://localhost:5432/thymelte?useUnicode=true&amp;characterEncoding=UTF-8
     username: ENC(hTpbG9fq+7P3SntmXuNtDxbtWDqRuPV+)

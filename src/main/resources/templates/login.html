@@ -16,7 +16,8 @@
 <body>
 <div id="mydiv">
     <div id="content-center">
-        <h2>欢迎登录</h2>
+        <h2 th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">扫码登录</h2>
+        <h2 th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">欢迎登录</h2>
         <div th:if="${param.error}">
             <p style="text-align:center ;color: red;" >用户名或者密码错误</p>
         </div>
@@ -25,22 +26,27 @@
         </div>
         <div th:if="${param.message}">
         </div>
-        <form th:action="@{/login}" method="post" id="loginForm">
-            <div class="input_control">
-                <input type="text" id="username" name="username" class="input_text" placeholder="用户名"/>
-            </div>
-            <div class="input_control">
-                <input type="password" id="password" name="password" class="input_text" placeholder="密码"/>
-            </div>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <div class="input_control">
-                <input type = "text" id="input_vericode" name="input_vericode" placeholder="验证码"/>
-                <input type="button" id="code" onclick="createCode()" title='点击更换验证码' />
-            </div>
-            <div class="input_control">
-                <button class="button submit" type="submit">登录</button>
-            </div>
-        </form>
+        <div th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" style="text-align: center">
+            <div id="qrcode"></div>
+        </div>
+        <div th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">
+            <form th:action="@{/login}" method="post" id="loginForm">
+                <div class="input_control">
+                    <input type="text" id="username" name="username" class="input_text" placeholder="用户名"/>
+                </div>
+                <div class="input_control">
+                    <input type="password" id="password" name="password" class="input_text" placeholder="密码"/>
+                </div>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <div class="input_control">
+                    <input type = "text" id="input_vericode" name="input_vericode" placeholder="验证码"/>
+                    <input type="button" id="code" onclick="createCode()" title='点击更换验证码' />
+                </div>
+                <div class="input_control">
+                    <button class="button submit" type="submit">登录</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -48,6 +54,7 @@
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
 <script th:src="@{/webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{/webjars/qrcodejs/1c78ccd/qrcode.min.js}"></script>
 <script th:src="@{/js/canvas-particle.js}"></script>
 <script th:src="@{/js/veri-code.js}"></script>
 <script>
@@ -71,7 +78,7 @@
     }
 </script>
 
-<script>
+<script th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">
     createCode();
     $().ready(function() {
         jQuery.validator.addMethod("password", function (value, element, param) {
@@ -104,6 +111,38 @@
                 error.appendTo(element.parent());
             },
             errorElement: "span"
+        });
+    });
+</script>
+<script th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">
+    $(function(){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        var qrCode = new QRCode(document.getElementById("qrcode"), {
+            width : 200,
+            height : 200
+        });
+        $.getJSON("users/uuid", function (data) {
+            var sid = data['sid'];
+
+            qrCode.makeCode(JSON.stringify(data));
+
+            var loop = setInterval(function () {
+                $.getJSON("users/loopCheck/" + sid, function(data){
+                    console.log(data);
+                    if(data['code'] == 200){
+                        clearInterval(loop);
+                        window.location.href = "/index";
+                    }else if(data['code'] == 500){
+                        clearInterval(loop);
+                        console.log(data['msg']);
+                    }
+                });
+            }, 5000);
         });
     });
 </script>
