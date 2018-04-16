@@ -16,6 +16,10 @@
 <body>
 <div id="mydiv">
     <div id="content-center">
+        <div style="float: right">
+            <img th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" class="switchMode" th:src="@{/img/pc-40x40.png}">
+            <img th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" class="switchMode" th:src="@{/img/qrcode-40x40.png}">
+        </div>
         <h2 th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">扫码登录</h2>
         <h2 th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">欢迎登录</h2>
         <div th:if="${param.error}">
@@ -143,6 +147,21 @@
                     }
                 });
             }, 5000);
+        });
+    });
+</script>
+<script>
+    $(function(){
+        $(".switchMode").on({
+            click:function(){
+                if($(this).attr("src") == "/img/qrcode-40x40.png"){
+                    $(this).attr("src", "/img/pc-40x40.png");
+                    window.location.href = "/login?qrcode=true";
+                }else {
+                    $(this).attr("src", "/img/qrcode-40x40.png");
+                    window.location.href = "/login";
+                }
+            }
         });
     });
 </script>
