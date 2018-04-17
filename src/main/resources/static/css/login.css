@@ -112,6 +112,23 @@ h2{
 
 #refreshQrCode{
     visibility: hidden;
+    text-align:center;
+}
+
+#jumpHint{
+    display: none;
+    margin:0 auto 6px auto;//上右下左
+}
+
+.hint{
+    color:white;
+    text-align:center;
+    border:1px solid #a1a1a1;
+    padding:6px 6px;
+    background:mediumseagreen;
+    width:200px;
+    border-radius:25px;
+    -moz-border-radius:25px; /* 老的 Firefox */
 }
 
 h1, h2{

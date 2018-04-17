@@ -23,7 +23,12 @@
         <h2 th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">扫码登录</h2>
         <h2 th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">欢迎登录</h2>
         <div>
-            <p id="refreshQrCode" style="text-align:center;">二维码已失效，请点击<a style="color: #00BDFF;">刷新</a></p>
+            <p id="refreshQrCode">二维码已失效，请点击<a style="color: #00BDFF;">刷新</a></p>
+        </div>
+        <div>
+            <p id="jumpHint" class="hint">
+                登录成功，正在跳转...
+            </p>
         </div>
         <div th:if="${param.error}">
             <p class="paramInfo">用户名或者密码错误</p>
@@ -175,7 +180,11 @@
                         console.log(data);
                         if(data['code'] == 200){
                             clearInterval(loop);
-                            window.location.href = "/index";
+                            $("#refreshQrCode").css("display", "none");
+                            $("#jumpHint").css("display", "block");
+                            setTimeout(function(){
+                                window.location.href = "/index";
+                            },2000);
                         }else if(data['code'] == 500){
                             clearInterval(loop);
                             console.log(data['msg']);
