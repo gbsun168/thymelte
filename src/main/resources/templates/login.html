@@ -36,8 +36,6 @@
         <div th:if="${param.logout}">
             <p class="paramInfo">您已退出登录</p>
         </div>
-        <div th:if="${param.message}">
-        </div>
         <div th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" style="text-align: center">
             <div id="qrcode"></div>
         </div>
