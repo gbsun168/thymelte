@@ -113,3 +113,13 @@ h2{
 #refreshQrCode{
     visibility: hidden;
 }
+
+h1, h2{
+    text-align:center;
+    clear:both;
+}
+
+.paramInfo{
+    text-align:center;
+    color:red;
+}
