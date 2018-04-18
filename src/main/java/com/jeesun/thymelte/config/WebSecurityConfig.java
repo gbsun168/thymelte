@@ -3,7 +3,6 @@ package com.jeesun.thymelte.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.jeesun.thymelte.custom.CustomLoginAuthProvider;
 import com.jeesun.thymelte.custom.CustomTokenAuthProvider;
-import com.jeesun.thymelte.custom.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,11 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
                 .and()
-                .csrf()
-                .and().authorizeRequests()
+                .csrf().ignoringAntMatchers("/users/loginByQrCode/**")
+                .and()
+                .authorizeRequests()
                 .antMatchers("/login", "/logout").permitAll()
                 .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**").permitAll()
-                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**").permitAll()
+                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**", "/users/loginByQrCode/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .rememberMe();
