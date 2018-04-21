@@ -139,7 +139,8 @@
         });
 
         var qrCodeData = $.cookie('qrCodeData');
-        if(!qrCodeData){
+        console.log(qrCodeData);
+        if(!qrCodeData || "null" == qrCodeData){
             refreshQrCode();
         }else{
             qrCode.makeCode(qrCodeData);
@@ -178,6 +179,7 @@
                         console.log(data);
                         if(data['code'] == 200){
                             clearInterval(loop);
+                            $.cookie('qrCodeData', null);//赋值"null"字符串
                             $("#refreshQrCode").css("display", "none");
                             $("#jumpHint").css("display", "block");
                             setTimeout(function(){
@@ -189,7 +191,7 @@
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
 
         $("#refreshQrCode > a").click(function () {
