@@ -1,7 +1,24 @@
 # thymelte
 
 ## 项目简介
-这是一个基于Spring Boot+webjars+AdminLTE+Thymeleaf的管理端项目，目的是简便管理端的开发。
+这是一个基于Spring Boot+AdminLTE+Thymeleaf的管理端项目，目的是简便管理端的开发。
 ## 功能列表
 - 登录页面：验证码，客户端输入验证。
 - 管理页面：使用Thymeleaf将AdminLTE页面拆分成多个组件，降低耦合。
+- 日志记录保存到文件。
+- Druid监控功能。访问[http://localhost:8090/druid/index.html](http://localhost:8090/druid/index.html)，用户名druid，密码12345678。
+
+## 截图
+![账号密码登录](screenshots/2018-04-22_030148.png)
+
+![扫码登录](screenshots/2018-04-22_030158.png)
+
+![主页面](screenshots/2018-04-22_030226.png)
+
+## 使用流程
+### logback.xml
+属性`log.dir`和`log.file.name`，分别配置日志所在目录和日志文件名称。若不修改，则默认的日志保存在项目目录下的logs文件夹内的thymelte.log文件中。日志已按日归档。
+
+### application.yml
+- jasypt.encryptor.password: 用于数据库连接新息的jasypt加密的密码。最好自定义更复杂的密码。
+- spring.datasource: 配置数据库连接信息。**注意，此处的用户名和密码信息必须是加密过后的字符串，不能是明文。加密是通过测试类UtilTests的jasyptTest方法进行的。**
