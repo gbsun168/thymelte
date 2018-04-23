@@ -6,8 +6,8 @@
 - 登录页面：
 1. 4种登录方式，用户名+密码，手机号+密码，邮箱+密码，app扫码；
 2. 验证码；
-- 管理页面：使用Thymeleaf将AdminLTE页面拆分成多个组件，降低耦合。
-- 日志记录保存到文件。
+- 管理页面：使用Thymeleaf将AdminLTE页面拆分成多个组件，降低耦合；
+- 日志保存到文件并按日归档；
 - Druid监控功能。访问[http://localhost:8090/druid/index.html](http://localhost:8090/druid/index.html)，用户名druid，密码12345678。
 
 ## 截图
