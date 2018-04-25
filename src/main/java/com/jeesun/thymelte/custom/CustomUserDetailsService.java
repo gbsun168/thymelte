@@ -42,13 +42,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         try{
             UserEntity userFromQuery = jdbcTemplate.queryForObject(sqlLoadUser, myUserDetailsRowMapper, s, s, s);
-            logger.error("查询得到用户：{}", userFromQuery);
+            logger.info("查询得到用户：{}", userFromQuery);
             List<GrantedAuthority> authorities = jdbcTemplate.query(sqlLoadAuthorities, authorityRowMapper, userFromQuery.getUsername());
-            logger.error("得到其权限：{}", authorities);
+            logger.info("得到其权限：{}", authorities);
 
-            return new UserEntity(userFromQuery.getId(), userFromQuery.getUsername(), userFromQuery.getPassword(), userFromQuery.isEnabled(), userFromQuery.getPhone(), userFromQuery.getEmail(), userFromQuery.getAuthorities());
+            return new UserEntity(userFromQuery.getId(), userFromQuery.getUsername(), userFromQuery.getPassword(), userFromQuery.isEnabled(), userFromQuery.getPhone(), userFromQuery.getEmail(), authorities);
         }catch (EmptyResultDataAccessException e){
-            logger.error("查询结果集为空：{}", s);
+            logger.info("查询结果集为空：{}", s);
             throw new UsernameNotFoundException("用户名或密码不正确");
         }
     }

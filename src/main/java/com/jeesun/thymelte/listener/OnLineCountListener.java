@@ -21,7 +21,7 @@ public class OnLineCountListener implements HttpSessionListener {
             count++;
         }
         context.setAttribute("count", count);
-        logger.error("sessionCreated count=" + count);
+        logger.info("sessionCreated count=" + count);
     }
 
     @Override
@@ -37,6 +37,6 @@ public class OnLineCountListener implements HttpSessionListener {
             count--;
         }
         context.setAttribute("count", count);
-        logger.error("sessionDestroyed count=" + count);
+        logger.info("sessionDestroyed count=" + count);
     }
 }
