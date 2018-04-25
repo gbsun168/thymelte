@@ -4,12 +4,17 @@ import com.jeesun.thymelte.custom.CustomTokenAuthProvider;
 import com.jeesun.thymelte.custom.UsernameTokenAuthenticationToken;
 import com.jeesun.thymelte.domain.QrCode;
 import com.jeesun.thymelte.domain.ResultMsg;
+import com.jeesun.thymelte.domain.UserDomain;
 import com.jeesun.thymelte.repository.QrCodeRepository;
+import com.jeesun.thymelte.repository.UserDomainRepository;
 import com.jeesun.thymelte.util.UuidUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +33,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
@@ -41,6 +47,9 @@ public class UserController {
 
     @Autowired
     private QrCodeRepository qrCodeRepository;
+
+    @Autowired
+    private UserDomainRepository userDomainRepository;
 
     @Autowired
     public UserController(ResourceLoader resourceLoader){
@@ -151,6 +160,44 @@ public class UserController {
             }
         }else{
             return new ResultMsg(404, "用户还未扫码", null);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/all")
+    @ResponseBody
+    public Map<String, Object> getUsers(@RequestParam Integer limit, @RequestParam Integer offset){
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("total", userDomainRepository.count());
+        resultMap.put("rows", userDomainRepository.findAll(new PageRequest(offset/limit, limit, new Sort(Sort.Direction.DESC, "id"))).getContent());
+
+        return resultMap;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, value = "/users/{id}/ban")
+    @ResponseBody
+    public ResultMsg ban(@PathVariable Long id){
+        UserDomain userDomain = userDomainRepository.findById(id);
+        userDomain.setEnabled(false);
+        userDomain = userDomainRepository.save(userDomain);
+        if(!userDomain.isEnabled()){
+            return new ResultMsg(200, "封号成功");
+        }else{
+            return new ResultMsg(404, "封号失败");
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, value = "/users/{id}/unban")
+    @ResponseBody
+    public ResultMsg unban(@PathVariable Long id){
+        UserDomain userDomain = userDomainRepository.findById(id);
+        userDomain.setEnabled(true);
+        userDomain = userDomainRepository.save(userDomain);
+        if(userDomain.isEnabled()){
+            return new ResultMsg(200, "解封成功");
+        }else{
+            return new ResultMsg(404, "解封失败");
         }
     }
 }

@@ -11,6 +11,12 @@ public class ResultMsg {
         this.data = data;
     }
 
+    public ResultMsg(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+        this.data = null;
+    }
+
     public Integer getCode() {
         return code;
     }
