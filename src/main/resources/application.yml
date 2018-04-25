@@ -46,7 +46,5 @@ server:
 
 logging:
   level:
-    root: WARN
     org.springframework.web: INFO
     hibernate: ERROR
-  file: log/thymelte.log
