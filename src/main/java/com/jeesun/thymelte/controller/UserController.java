@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -131,31 +129,6 @@ public class UserController {
         resultMap.put("type", "login");
         resultMap.put("sid", sid);
         return resultMap;
-    }
-
-    /**
-     * 手机扫描网页端二维码码登录需要访问的接口
-     * @param username
-     * @param token
-     * @param sid
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST, value = "users/loginByQrCode")
-    @ResponseBody
-    public ResultMsg postLoginByQrCode(
-            @RequestParam String username,
-            @RequestParam String token,
-            @RequestParam String sid){
-        QrCode qrCode = qrCodeRepository.findBySid(sid);
-        if (null != qrCode){
-            qrCode.setUsername(username);
-            qrCode.setToken(token);
-            qrCode.setOk(true);
-            qrCodeRepository.save(qrCode);
-            return new ResultMsg(200, "扫码成功", null);
-        }else{
-            return new ResultMsg(404, "扫码失败，未找到该二维码对应的数据", null);
-        }
     }
 
     //参考https://www.cnblogs.com/huangjiandong2012/p/4026634.html
