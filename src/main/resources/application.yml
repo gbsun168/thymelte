@@ -43,6 +43,7 @@ server:
   port: 8090
   session:
     timeout: 1800
+    persistent: true # 重启时是否持久化session，默认false
 
 logging:
   level:
