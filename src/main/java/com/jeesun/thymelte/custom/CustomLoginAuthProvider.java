@@ -22,7 +22,7 @@ public class CustomLoginAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        logger.error("authenticate");
+        logger.info("authenticate");
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         UserEntity userEntity = (UserEntity) userDetailsService.loadUserByUsername(username);

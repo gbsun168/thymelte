@@ -55,7 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe();
 
-        http.sessionManagement().invalidSessionUrl("/login?logout").maximumSessions(1).expiredUrl("/login?logout");
+        //只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
+        http
+                .sessionManagement()
+                .invalidSessionUrl("/login?logout")
+                .maximumSessions(1)
+                .expiredUrl("/login?logout");
     }
 
     @Override

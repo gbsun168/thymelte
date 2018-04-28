@@ -55,9 +55,9 @@ $(function(){
             align: 'center',
             formatter: function (value, row, index, field) {
                 if(value){
-                    return '正常';
+                    return '<span style="color: lawngreen;">正常</span>';
                 }else{
-                    return '已封';
+                    return '<span style="color: red;">已封</span>';
                 }
             }
         },{

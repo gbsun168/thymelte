@@ -9,7 +9,7 @@
 <ul th:fragment="sidebar-menu" class="sidebar-menu" data-widget="tree">
     <!--<li class="header">HEADER</li>-->
     <!-- Optionally, you can add icons to the links -->
-    <li class="active"><a href="/index"><i class="fa fa-link"></i> <span>Link</span></a></li>
+    <li class="active"><a href="/index"><i class="fa fa-link"></i> <span>第一</span></a></li>
     <li><a href="/second"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
     <li class="treeview">
         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
@@ -22,7 +22,7 @@
             <li><a href="/forth">Link in level 2</a></li>
         </ul>
     </li>
-    <li sec:authorize-expr="hasRole('ADMIN')"><a th:href="@{/user-manage}"><i class="fa fa-link"> <span>用户管理</span></i></a></li>
+    <li sec:authorize-expr="hasRole('ADMIN')"><a th:href="@{/user-manage}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
 </ul>
 <!-- /.sidebar-menu -->
 </body>
