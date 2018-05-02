@@ -42,7 +42,7 @@
         <div th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">
             <form th:action="@{/login}" method="post" id="loginForm">
                 <div class="input_control">
-                    <input type="text" id="username" name="username" class="input_text" placeholder="用户名"/>
+                    <input type="text" id="username" name="username" class="input_text" placeholder="用户名、手机号或者邮箱"/>
                 </div>
                 <div class="input_control">
                     <input type="password" id="password" name="password" class="input_text" placeholder="密码"/>
