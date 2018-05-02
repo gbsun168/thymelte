@@ -30,7 +30,11 @@
     width:100%;
 }
 
+/**
+验证码输入框
+ */
 #input_vericode{
+    vertical-align: middle;
     text-align:center;
     font-size:16px;
     height:40px;
@@ -41,8 +45,9 @@
     -moz-appearance: none;
     outline:0;
     padding:0 1em;
+    margin: auto;
     text-decoration:none;
-    width:200px;
+    width:180px;
 }
 
 .disabled {
@@ -85,7 +90,7 @@ body{background-color: #2D2D2D}
     width: 100%;
 }
 
-#code{
+#code,#codeimg{
     width:80px;
     font-size:16px;
     font-style:italic;
@@ -94,6 +99,10 @@ body{background-color: #2D2D2D}
     padding:6px;
     letter-spacing:3px;
     font-weight:bolder;
+}
+
+#codeimg{
+    float: right;
 }
 
 h2{

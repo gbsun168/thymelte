@@ -1,6 +1,6 @@
 //账号密码登录
 $().ready(function() {
-    createCode();
+    //createCode();
 
     jQuery.validator.addMethod("password", function (value, element, param) {
         var rex = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;

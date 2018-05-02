@@ -10,6 +10,8 @@
     <!--[if lt IE 9]>
     <script src="/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <script src="/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <script src="/webjars/excanvas/3/excanvas.js"></script>
+    <script src="/webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
     <link type="text/css" rel="styleSheet"  th:href="@{/css/login.css}" />
 </head>
@@ -50,7 +52,10 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <div class="input_control">
                     <input type = "text" id="input_vericode" name="input_vericode" placeholder="验证码"/>
-                    <input type="button" id="code" onclick="createCode()" title='点击更换验证码' />
+                    <!--<input type="button" id="code" onclick="createCode()" title='点击更换验证码' />-->
+                    <canvas class="codeimg" id="codeimg">
+                        Your browser does not support the canvas element.
+                    </canvas>
                 </div>
                 <div class="input_control">
                     <button class="button submit" type="submit">登录</button>
@@ -67,7 +72,7 @@
 <script th:src="@{/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js}"></script>
 <script th:src="@{/webjars/qrcodejs/1c78ccd/qrcode.min.js}"></script>
 <script th:src="@{/js/canvas-particle.js}"></script>
-<script th:src="@{/js/veri-code.js}"></script>
+<script th:src="@{/js/vcode.js}"></script>
 <script th:src="@{/js/login.js}"></script>
 <script th:src="@{/js/login-form.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
 <script th:src="@{/js/login-qrcode.js}" th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>

@@ -13,6 +13,7 @@ function createCode(){
     checkCode.value = code;//把code值赋给验证码
 }
 
+/*
 function validate(value) {
     return value.toUpperCase()==code;
-}
+}*/
