@@ -31,9 +31,8 @@ $(function(){
         url: '/users/all',
         search: true,
         showRefresh: true,
-        showToggle: true,
+        showToggle: false,
         showColumns: true,
-        showExport: true,
         showFooter: false,
         showFullscreen: true,
         pagination: true,
@@ -42,6 +41,9 @@ $(function(){
         showPaginationSwitch: true,
         clickToSelect: true,
         striped: false,
+        showExport: true,
+        exportDataType: 'all',
+        exportTypes: ['json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],
         columns: [{
             field: 'state',
             checkbox: true
