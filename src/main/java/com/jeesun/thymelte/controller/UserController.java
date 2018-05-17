@@ -165,10 +165,15 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/all")
     @ResponseBody
-    public Map<String, Object> getUsers(@RequestParam Integer limit, @RequestParam Integer offset){
+    public Map<String, Object> getUsers(@RequestParam(required = false) Integer limit, @RequestParam(required = false) Integer offset){
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("total", userDomainRepository.count());
-        resultMap.put("rows", userDomainRepository.findAll(new PageRequest(offset/limit, limit, new Sort(Sort.Direction.DESC, "id"))).getContent());
+        if(null != limit && null != offset){
+            resultMap.put("total", userDomainRepository.count());
+            resultMap.put("rows", userDomainRepository.findAll(new PageRequest(offset/limit, limit, new Sort(Sort.Direction.DESC, "id"))).getContent());
+        }else{
+            resultMap.put("total", userDomainRepository.count());
+            resultMap.put("rows", userDomainRepository.findAll());
+        }
 
         return resultMap;
     }
