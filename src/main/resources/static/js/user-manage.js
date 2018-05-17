@@ -47,10 +47,10 @@ $(function(){
         exportOptions:{
             //pdf格式导出显示不全，只能先忽略列
             ignoreColumn: [0, 5],  //忽略某一列的索引
-            //fileName: questionNaireName,  //文件名称设置
-            //worksheetName: 'sheet1',  //表格工作区名称
-            //tableName: questionNaireName,
-            //excelstyles: ['background-color', 'color', 'font-size', 'font-weight'], 设置格式
+            fileName: "报表",  //文件名称设置
+            worksheetName: 'sheet1',  //表格工作区名称
+            tableName: "报表",
+            excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
         },
         columns: [{
             field: 'state',
