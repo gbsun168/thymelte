@@ -44,6 +44,14 @@ $(function(){
         showExport: true,
         exportDataType: 'all',
         exportTypes: ['json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],
+        exportOptions:{
+            //pdf格式导出显示不全，只能先忽略列
+            ignoreColumn: [0, 5],  //忽略某一列的索引
+            //fileName: questionNaireName,  //文件名称设置
+            //worksheetName: 'sheet1',  //表格工作区名称
+            //tableName: questionNaireName,
+            //excelstyles: ['background-color', 'color', 'font-size', 'font-weight'], 设置格式
+        },
         columns: [{
             field: 'state',
             checkbox: true
