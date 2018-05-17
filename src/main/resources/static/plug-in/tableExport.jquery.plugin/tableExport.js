@@ -90,14 +90,7 @@
       onIgnoreRow:         null,        // onIgnoreRow($tr, rowIndex): function should return true to not export a row
       outputMode:          'file',      // 'file', 'string', 'base64' or 'window' (experimental)
       pdfmake: {
-        enabled:           false,       // true: use pdfmake instead of jspdf and jspdf-autotable (experimental)
-        docDefinition: {
-          pageOrientation: 'portrait',  // 'portrait' or 'landscape'
-          defaultStyle: {
-            font:          'Roboto'     // Default is 'Roboto', for arabic font set this option to 'Mirza' and include mirza_fonts.js
-          }
-        },
-        fonts: {}
+        enabled:           true       // true: use pdfmake instead of jspdf and jspdf-autotable (experimental)
       },
       tbodySelector:       'tr',
       tfootSelector:       'tr',        // Set empty ('') to prevent export of tfoot rows
@@ -1006,28 +999,38 @@
 
         CollectPdfmakeData($rows, 'th,td', $hrows.length + $rows.length);
 
-        var docDefinition = {
-          content: [{
-            table: {
-              headerRows: $hrows.length,
-              widths:     widths,
-              body:       body
-            }
-          }]
-        };
-
-        $.extend(true, docDefinition, defaults.pdfmake.docDefinition);
-
         pdfMake.fonts = {
-          Roboto: {
-            normal:      'Roboto-Regular.ttf',
-            bold:        'Roboto-Medium.ttf',
-            italics:     'Roboto-Italic.ttf',
-            bolditalics: 'Roboto-MediumItalic.ttf'
-          }
+            Roboto: {
+                normal: 'Roboto-Regular.ttf',
+                bold: 'Roboto-Medium.ttf',
+                italics: 'Roboto-Italic.ttf',
+                bolditalics: 'Roboto-Italic.ttf'
+            },
+            方正兰亭细黑: {
+                normal: 'fzltxh_GBK_M.TTF',
+                bold: 'fzltxh_GBK_M.TTF',
+                italics: 'fzltxh_GBK_M.TTF',
+                bolditalics: 'fzltxh_GBK_M.TTF'
+            }
         };
 
         $.extend(true, pdfMake.fonts, defaults.pdfmake.fonts);
+        var docDefinition = {
+            pageOrientation: 'landscape',
+            content: [
+                {
+                    table: {
+                        headerRows: $hrows.length,
+                        widths: widths,
+                        body: body
+                    }
+                }
+            ],
+            defaultStyle: {
+                font: '方正兰亭细黑'
+            }
+        };
+        $.extend(true, docDefinition, defaults.pdfmake.docDefinition);
 
         pdfMake.createPdf(docDefinition).getBuffer(function (buffer) {
 
