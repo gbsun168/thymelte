@@ -40,7 +40,7 @@ jasypt:
     password: 19941017
 
 server:
-  port: 8090
+  port: 8099
   session:
     timeout: 1800
     persistent: true # 重启时是否持久化session，默认false
