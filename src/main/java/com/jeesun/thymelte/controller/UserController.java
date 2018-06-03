@@ -2,11 +2,11 @@ package com.jeesun.thymelte.controller;
 
 import com.jeesun.thymelte.custom.CustomTokenAuthProvider;
 import com.jeesun.thymelte.custom.UsernameTokenAuthenticationToken;
-import com.jeesun.thymelte.domain.QrCode;
-import com.jeesun.thymelte.domain.ResultMsg;
-import com.jeesun.thymelte.domain.UserDomain;
+import com.jeesun.thymelte.domain.*;
+import com.jeesun.thymelte.repository.AuthorityRepository;
 import com.jeesun.thymelte.repository.QrCodeRepository;
 import com.jeesun.thymelte.repository.UserDomainRepository;
+import com.jeesun.thymelte.repository.UserInfoRepository;
 import com.jeesun.thymelte.util.UuidUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +52,12 @@ public class UserController {
 
     @Autowired
     private UserDomainRepository userDomainRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     public UserController(ResourceLoader resourceLoader){
@@ -203,6 +211,35 @@ public class UserController {
             return new ResultMsg(200, "解封成功");
         }else{
             return new ResultMsg(404, "解封失败");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/users/register")
+    public String register(@RequestParam String username, @RequestParam String password){
+        UserDomain userDomain = userDomainRepository.findByUsername(username);
+        if(null == userDomain){
+            userDomain = new UserDomain();
+            userDomain.setUsername(username);
+            PasswordEncoder encoder = new BCryptPasswordEncoder(11);//密码加密
+            userDomain.setPassword(encoder.encode(password));
+            userDomain.setEnabled(true);
+            userDomain = userDomainRepository.save(userDomain);
+
+            logger.info(userDomain);
+
+            Authority authority = new Authority();
+            authority.setUsername(username);
+            authority.setAuthority("ROLE_USER");
+            authority = authorityRepository.save(authority);
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(userDomain.getId());
+            userInfo.setUsername(username);
+            userInfo = userInfoRepository.save(userInfo);
+
+            return "redirect:/register_result?success";
+        }else{
+            return "redirect:/register_result?usernameExists";
         }
     }
 }

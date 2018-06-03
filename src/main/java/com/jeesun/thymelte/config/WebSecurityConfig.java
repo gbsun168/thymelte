@@ -16,7 +16,8 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)//允许进入页面方法前检验
+//Spring Security默认是禁用注解的，要想开启注解，需要在继承WebSecurityConfigurerAdapter的类上加@EnableGlobalMethodSecurity注解，来判断用户对某个控制层的方法是否具有访问权限
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DruidDataSource dataSource;
@@ -47,13 +48,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().ignoringAntMatchers("/druid/*")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/logout").permitAll()
+                .antMatchers("/login", "/logout", "/register", "/register_result").permitAll()
                 .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**").permitAll()
-                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**").permitAll()
+                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**", "/users/register").permitAll()
                 .antMatchers("/user-manage").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .rememberMe();
+                .rememberMe()
+        .and().csrf().ignoringAntMatchers("/register", "/users/register");
 
         //只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
         http

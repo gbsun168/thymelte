@@ -12,10 +12,11 @@ import javax.persistence.*;
 @Table(name = "users")
 @Entity
 public class UserDomain {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Id
     private String username;
+    private String password;
     private boolean enabled;
     private String phone;
     private String email;
@@ -34,6 +35,14 @@ public class UserDomain {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isEnabled() {

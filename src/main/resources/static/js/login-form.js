@@ -15,7 +15,7 @@ $().ready(function() {
         rules:{
             username: {
                 required: true,
-                minlength: 6
+                minlength: 1
             },
             password: {
                 required: true,

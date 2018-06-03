@@ -27,12 +27,14 @@ public class CustomLoginAuthProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
         UserEntity userEntity = (UserEntity) userDetailsService.loadUserByUsername(username);
         if (null == userEntity){
+            logger.error("用户名错误");
             throw new BadCredentialsException("用户名错误");
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
 
         if(!encoder.matches(password, userEntity.getPassword())){
+            logger.error("密码错误");
             throw new BadCredentialsException("密码错误");
         }
 

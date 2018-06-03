@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册结果</title>
+    <!--[if lt IE 9]>
+    <script src="/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <script src="/webjars/excanvas/3/excanvas.js"></script>
+    <script src="/webjars/excanvas/3/excanvas.compiled.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <h2 th:if="${param.success}" class="text-center">
+        注册成功，正在跳转到登录页面......
+    </h2>
+    <h2 th:if="${param.usernameExists}" class="text-center">
+        注册失败，用户名已存在，正在跳转回注册页面......
+    </h2>
+</div>
+<!-- jQuery 3 -->
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/util.js}"></script>
+<script>
+    $(function () {
+        console.log($("h2").html());
+        if($("h2").html().indexOf("成功") != -1){
+            setTimeout("registerSuccess()", 2000);
+        }else{
+            setTimeout("registerFailed()", 2000);
+        }
+    });
+
+    function registerSuccess() {
+        window.location.href="/login";
+    }
+
+    function registerFailed() {
+        window.location.href="/register";
+    }
+</script>
+</body>
+</html>
