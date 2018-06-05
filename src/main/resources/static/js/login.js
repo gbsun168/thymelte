@@ -1,5 +1,5 @@
 $(function(){
-    window.onload = function() {
+    window.onload = new function() {
         //配置
         var config = {
             vx: 4,	//小球x轴速度,正为右，负为左
@@ -20,11 +20,11 @@ $(function(){
 
     $(".switchMode").on({
         click:function(){
-            if($(this).attr("src") == "/img/qrcode-40x40.png"){
-                $(this).attr("src", "/img/pc-40x40.png");
+            if($(this).attr("src") == "../img/qrcode-40x40.png"){
+                $(this).attr("src", "../img/pc-40x40.png");
                 window.location.href = "/login?qrcode=true";
             }else {
-                $(this).attr("src", "/img/qrcode-40x40.png");
+                $(this).attr("src", "../img/qrcode-40x40.png");
                 window.location.href = "/login";
             }
         }
