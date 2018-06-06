@@ -10,7 +10,7 @@ $(function(){
     };
 
     window.ban = function(id) {
-        $.post('/users/' + id + '/ban', function (data) {
+        $.post('users/' + id + '/ban', function (data) {
             $('#hint').text(data.msg);
             $('#hint').css('visibility', 'visible');
             setTimeout('hideHint()', 2000);
@@ -19,7 +19,7 @@ $(function(){
     };
 
     window.unban = function (id) {
-        $.post('/users/' + id + '/unban', function (data) {
+        $.post('users/' + id + '/unban', function (data) {
             $('#hint').text(data.msg);
             $('#hint').css('visibility', 'visible');
             setTimeout('hideHint()', 2000);
@@ -28,7 +28,7 @@ $(function(){
     };
 
     $("#table").bootstrapTable({
-        url: '/users/all',
+        url: 'users/all',
         search: true,
         showRefresh: true,
         showToggle: false,
