@@ -9,12 +9,12 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>注册</title>
     <!--[if lt IE 9]>
-    <script src="/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-    <script src="/webjars/respond/1.4.2/dest/respond.min.js"></script>
-    <script src="/webjars/excanvas/3/excanvas.js"></script>
-    <script src="/webjars/excanvas/3/excanvas.compiled.js"></script>
+    <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <script src="webjars/excanvas/3/excanvas.js"></script>
+    <script src="webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
 </head>
 <body>
 <div class="container">
@@ -22,7 +22,7 @@
         <h2 class="text-center">
             账号注册
         </h2>
-        <form action="/users/register" role="form" method="post">
+        <form th:action="@{users/register}" role="form" method="post">
             <div class="form-group">
                 <label for="username">名称</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="请输入邮箱">
@@ -39,8 +39,8 @@
     </div>
 </div>
 <!-- jQuery 3 -->
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 </body>
 </html>
