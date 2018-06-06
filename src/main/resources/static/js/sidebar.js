@@ -4,13 +4,14 @@ $(function(){
     });
 
     var pathname = window.location.pathname;
-    console.log("pathname=" + pathname);
-    if(pathname == "/"){
+    //console.log("pathname=" + pathname);
+    if((pathname.lastIndexOf("/") + 1) == pathname.length){
+        console.log("yes");
         $('.sidebar-menu li:first-child').addClass("active");
     }else{
         $('.sidebar-menu li').each(function () {
             var href = $(this).children("a").attr("href");
-            console.log("href=" + href);
+            //console.log("href=" + href);
             if(href != undefined){
                 if(pathname.indexOf(href) != -1){
                     $(this).addClass("active");
