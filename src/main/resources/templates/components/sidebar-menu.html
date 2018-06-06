@@ -11,7 +11,7 @@
     <!-- Optionally, you can add icons to the links -->
     <li><a th:href="@{index}"><i class="fa fa-link"></i> <span>主页</span></a></li>
     <li><a th:href="@{news_info}"><i class="fa fa-link"></i> <span>新闻管理</span></a></li>
-    <li class="treeview">
+    <!--<li class="treeview">
         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -21,7 +21,7 @@
             <li><a href="/third">Link in level 2</a></li>
             <li><a href="/forth">Link in level 2</a></li>
         </ul>
-    </li>
+    </li>-->
     <li sec:authorize-expr="hasRole('ADMIN')"><a th:href="@{user_manage}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
 </ul>
 <!-- /.sidebar-menu -->
