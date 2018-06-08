@@ -24,19 +24,20 @@
         </div>
         <h2 th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">扫码登录</h2>
         <h2 th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">欢迎登录</h2>
-        <div>
-            <p id="refreshQrCode">二维码已失效，请点击<a style="color: #00BDFF;">刷新</a></p>
+        <div id="refreshQrCode" class="hint warn">
+            二维码已失效，请点击<a style="color: #00BDFF;">刷新</a>
         </div>
-        <div>
-            <p id="jumpHint" class="hint">
-                登录成功，正在跳转...
-            </p>
+        <div id="jumpHint" class="hint success">
+            登录成功，正在跳转...
         </div>
-        <div th:if="${param.error}">
-            <p class="paramInfo">用户名或者密码错误，或者您已被封号</p>
+        <div class="hint warn" th:if="${(param.result != null) and (param.result[0] == 'disabled')}">
+            您已被封号
         </div>
-        <div th:if="${param.logout}">
-            <p class="paramInfo">您已退出登录</p>
+        <div class="hint warn" th:if="${(param.result != null) and (param.result[0] == 'error')}">
+            用户名或者密码错误
+        </div>
+        <div class="hint warn" th:if="${param.logout}">
+            您已退出登录
         </div>
         <div th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" style="text-align: center">
             <div id="qrcode"></div>

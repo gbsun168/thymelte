@@ -1,6 +1,7 @@
 package com.jeesun.thymelte.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.jeesun.thymelte.custom.CustomAuthenticationFailureHandler;
 import com.jeesun.thymelte.custom.CustomLoginAuthProvider;
 import com.jeesun.thymelte.custom.CustomTokenAuthProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/index")
-                .failureUrl("/login?error").permitAll()
+                .failureHandler(new CustomAuthenticationFailureHandler())
                 .successHandler(authSuccessHandler)
                 .and()
                 .logout().permitAll()
