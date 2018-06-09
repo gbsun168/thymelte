@@ -10,10 +10,6 @@ import com.jeesun.thymelte.repository.UserInfoRepository;
 import com.jeesun.thymelte.util.UuidUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,17 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,8 +30,6 @@ import java.util.Map;
 @Controller
 public class UserController {
     private static Logger logger = Logger.getLogger(UserController.class);
-    private static final String ROOT = "users";
-    private final ResourceLoader resourceLoader;
 
     @Autowired
     private CustomTokenAuthProvider customTokenAuthProvider;
@@ -59,17 +46,6 @@ public class UserController {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @Autowired
-    public UserController(ResourceLoader resourceLoader){
-        this.resourceLoader = resourceLoader;
-        if(!Files.exists(Paths.get(ROOT))){
-            try{
-                Files.createDirectories(Paths.get(ROOT));
-            }catch (IOException e){
-
-            }
-        }
-    }
     /**
      * 退出登录
      * @param request
@@ -93,45 +69,6 @@ public class UserController {
         return "count : " + count;
     }
 
-    @RequestMapping("/upload")
-    @ResponseBody
-    public ResultMsg upload(HttpServletRequest request, HttpServletResponse response, @RequestParam("files[]") MultipartFile[] files){
-        logger.error("upload");
-        int len = files.length;
-        if (len > 0){
-            for(int i = 0; i < 1; i++){
-                if (!files[0].isEmpty()){
-                    try {
-                        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-                        String imgUrl = ROOT + "/" + fmt.format(new Date()) + ".png";
-                        Path path = Paths.get(imgUrl);
-                        if (!Files.exists(path)){
-                            Files.copy(files[i].getInputStream(), path);
-                            logger.error(files[0].getName());
-                            logger.error(files[0].getOriginalFilename());
-                            logger.error(files[0].getContentType());
-                        }
-                        return new ResultMsg(200, "上传成功", imgUrl);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        logger.error(e.getMessage());
-                        return new ResultMsg(500, e.getMessage(), null);
-                    }
-                }
-            }
-        }
-        return new ResultMsg(500, "上传失败，原因未知", null);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "users/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<?> getFile(@PathVariable String filename) {
-        try {
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(ROOT, filename).toString()));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "users/uuid")
     @ResponseBody
@@ -173,15 +110,10 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/all")
     @ResponseBody
-    public Map<String, Object> getUsers(@RequestParam(required = false) Integer limit, @RequestParam(required = false) Integer offset){
+    public Map<String, Object> getUsers(@RequestParam(required = false, defaultValue = "10") Integer limit, @RequestParam(required = false, defaultValue = "0") Integer offset){
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        if(null != limit && null != offset){
-            resultMap.put("total", userDomainRepository.count());
-            resultMap.put("rows", userDomainRepository.findAll(new PageRequest(offset/limit, limit, new Sort(Sort.Direction.DESC, "id"))).getContent());
-        }else{
-            resultMap.put("total", userDomainRepository.count());
-            resultMap.put("rows", userDomainRepository.findAll());
-        }
+        resultMap.put("total", userDomainRepository.countAllByAuthority());
+        resultMap.put("rows", userDomainRepository.findAllByAuthority(offset, limit));
 
         return resultMap;
     }
