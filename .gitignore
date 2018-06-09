@@ -26,3 +26,5 @@ nbdist/
 
 logs/
 users/
+upload/
+fileUpload/
