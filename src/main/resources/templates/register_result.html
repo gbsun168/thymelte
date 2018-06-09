@@ -13,16 +13,36 @@
     <script src="/webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/common.css}">
+    <style>
+        html, body {
+            height:100%;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2 th:if="${param.success}" class="text-center">
-        注册成功，正在跳转到登录页面......
-    </h2>
-    <h2 th:if="${param.usernameExists}" class="text-center">
-        注册失败，用户名已存在，正在跳转回注册页面......
-    </h2>
-</div>
+<section id="register_form" class="outer-wrapper">
+    <div class="inner-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="form-signin">
+                        <div class="text-center" th:if="${param.success}">
+                            <h2>注册成功</h2>
+                            <div>正在跳转到登录页面......</div>
+                            <img th:src="@{img/tick.png}" alt="注册成功">
+                        </div>
+                        <div class="text-center" th:if="${param.usernameExists}">
+                            <h2>注册失败</h2>
+                            <div>用户名已存在，正在跳转回注册页面......</div>
+                            <img th:src="@{img/cross.png}" alt="注册失败">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- jQuery 3 -->
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -39,11 +59,11 @@
     });
 
     function registerSuccess() {
-        window.location.href="/login";
+        window.location.href="login";
     }
 
     function registerFailed() {
-        window.location.href="/register";
+        window.location.href="register";
     }
 </script>
 </body>
