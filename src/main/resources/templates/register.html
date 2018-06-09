@@ -15,32 +15,63 @@
     <script src="webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
     <link rel="stylesheet" th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <style>
+        html, body {
+            height:100%;
+            background-color: #2D2D2D;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{css/common.css}">
+    <link rel="stylesheet" th:href="@{css/coverr.css}">
 </head>
 <body>
-<div class="container">
-    <div class="row col-md-4 col-md-offset-4">
-        <h2 class="text-center">
-            账号注册
-        </h2>
-        <form th:action="@{users/register}" role="form" method="post">
-            <div class="form-group">
-                <label for="username">名称</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="请输入邮箱">
+<div class="homepage-hero-module">
+    <div class="video-container">
+        <div class="filter"></div>
+        <video autoplay muted loop class="fillWidth">
+            <source th:src="@{video/Concrete_Jungle.mp4}" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+            <source th:src="@{video/Concrete_Jungle.webm}" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+        </video>
+        <div class="poster hidden">
+            <img th:src="@{img/Concrete_Jungle.jpg}" alt="">
+        </div>
+        <!-- 注册框 -->
+        <section id="register_form" class="outer-wrapper">
+            <div class="inner-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <h2 class="text-center" style="color: white">thymelte系统</h2>
+                            <form th:action="@{users/register}" role="form" method="post" class="form-signin custom_form">
+                                <h2 class="form-signin-heading text-center">请注册</h2>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <div class="form-group">
+                                    <label for="username">名称</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入邮箱">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                                </div>
+                                <div class="row text-center">
+                                    <button type="submit" class="btn btn-primary" style="width: 92%">注册</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">密码</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
-            </div>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <div class="row text-center">
-                <button type="submit" class="btn btn-default" style="width: 92%">注册</button>
-            </div>
-        </form>
+        </section>
     </div>
 </div>
+
 <!-- jQuery 3 -->
 <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
+<script th:src="@{webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{js/login-form.js}"></script>
+<script th:src="@{js/coverr.js}"></script>
 </body>
 </html>

@@ -1,10 +1,6 @@
 //扫码登录
 $(function(){
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function (e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
+    setTokenInHeader();
 
     var qrCode = new QRCode(document.getElementById("qrcode"), {
         width : 200,
@@ -60,7 +56,7 @@ $(function(){
                         },2000);
                     }else if(data['code'] == 500){
                         clearInterval(loop);
-                        console.log(data['msg']);
+                        console.log(data['message']);
                     }
                 });
             }

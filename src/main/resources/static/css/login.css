@@ -1,10 +1,11 @@
 #content-center{
+    padding: 6px;
     position:absolute;
     width:360px;
-    height:380px;
+    height:420px;
     top:50%;
     left:50%;
-    margin-top:-190px;
+    margin-top:-210px;
     margin-left:-180px;
     background:white;
 }
@@ -109,6 +110,8 @@ h2{
     margin: 0 0 0 30px;
     text-align: center;
     padding: 0;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: lighter;
 }
 .error{
     color:red;
@@ -134,12 +137,20 @@ h2{
 .hint{
     color:white;
     text-align:center;
+    margin: 0 auto;
     border:1px solid #a1a1a1;
     padding:6px 6px;
-    background:mediumseagreen;
     width:200px;
     border-radius:25px;
     -moz-border-radius:25px; /* 老的 Firefox */
+}
+
+.success{
+    background-color: mediumseagreen;
+}
+
+.warn{
+    background-color: red;
 }
 
 .paramInfo{
