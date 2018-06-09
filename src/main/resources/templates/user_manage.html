@@ -18,6 +18,7 @@
     <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" th:href="@{css/common.css}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
 <div class="wrapper">
@@ -26,7 +27,7 @@
     <div th:replace="components/sidebar :: sidebar"></div>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper bg-color-white">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -38,7 +39,7 @@
         <!-- Main content -->
         <section class="content container-fluid">
             <div class="row">
-                <div style="text-align: center;"><span class="btn btn-info" id="hint"></span></div>
+                <div style="text-align: center;"><span class="btn btn-info" id="hint" style="visibility: hidden"></span></div>
             </div>
             <table id="table"></table>
         </section>
@@ -58,6 +59,7 @@
 <script th:src="@{webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.js}"></script>
 <script th:src="@{webjars/bootstrap-table/1.11.1/dist/locale/bootstrap-table-zh-CN.min.js}"></script>
 
+<!-- tableExport -->
 <script th:src="@{webjars/bootstrap-table/1.11.1/dist/extensions/export/bootstrap-table-export.min.js}"></script>
 <script th:src="@{plug-in/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js}"></script>
 <script th:src="@{plug-in/tableExport.jquery.plugin/libs/js-xlsx/xlsx.core.min.js}"></script>
@@ -70,6 +72,8 @@
 
 <script th:src="@{js/util.js}"></script>
 <script th:src="@{js/sidebar.js}"></script>
+<script th:src="@{js/table.js}"></script>
+<script th:src="@{js/common.js}"></script>
 <script th:src="@{js/user_manage.js}"></script>
 </body>
 </html>

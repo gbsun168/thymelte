@@ -32,4 +32,13 @@ public class UtilTests {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.info(format.format(new Date()));
     }
+
+    @Test
+    public void testSub(){
+        String imgUrl = "cms/ReadAddress/1479805098158.jpg";
+
+        String image = imgUrl.substring(imgUrl.lastIndexOf("/")+1);
+        logger.info(image);
+        logger.info(imgUrl.substring(0, imgUrl.lastIndexOf("/")));
+    }
 }

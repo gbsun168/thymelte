@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link th:href="@{webjars/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Ionicons -->
+    <link th:href="@{webjars/ionicons/2.0.1/css/ionicons.min.css}" rel="stylesheet">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{webjars/AdminLTE/2.4.2/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{webjars/AdminLTE/2.4.2/dist/css/skins/skin-blue.min.css}">
+    <link rel="stylesheet" th:href="@{webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload.css}">
+    <link rel="stylesheet" th:href="@{/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload-ui.css}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{css/common.css}">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+<div class="wrapper">
+
+    <div th:replace="components/header :: header"></div>
+    <div th:replace="components/sidebar :: sidebar"></div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper bg-color-white">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                新闻管理
+                <small>我的新闻列表</small>
+            </h1>
+
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div style="text-align: center;"><span class="btn btn-info" id="hint" style="visibility: hidden"></span></div>
+            </div>
+            <div class="row" th:fragment="content-table">
+                <div id="toolbar" class="btn-group">
+                    <button id="plus" type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                    <button id="edit" type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                    <button id="minus" type="button" class="btn btn-default">
+                        <i class="glyphicon glyphicon-minus"></i>
+                    </button>
+                </div>
+                <table id="table" class="table table-hover"></table>
+            </div>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">编辑新闻</h4>
+                        </div>
+                        <form role="form" id="form_add">
+                            <div class="modal-body">
+                                <div>
+                                    <input type="hidden" name="id" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">名称</label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="新闻标题">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="file_upload" class="btn btn-default">更换图片</label>
+                                    <input id="file_upload" type="file" name="file" multiple style="display:none">
+                                    <span class="proportion"></span>
+                                    <!-- 上传进度条及状态： -->
+                                    <div class="progress" style="width: 100px">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                                        <div class="upstatus" style="margin-top:10px;"></div>
+                                    </div>
+                                    <!-- 预览框： -->
+                                    <div class="preview" style="margin-top:20px;"></div>
+                                </div>
+                                <div id="file_paths"></div>
+
+                                <div class="form-group">
+                                    <!--<label for="content">正文</label>
+                                    <input type="text" class="form-control" id="content" name="content" placeholder="正文">-->
+                                    <div id="content_edit"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" id="commit_change" class="btn btn-primary">提交更改</button>
+                            </div>
+                        </form>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <div th:replace="components/footer :: footer"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{webjars/AdminLTE/2.4.2/dist/js/adminlte.min.js}"></script>
+<script th:src="@{webjars/AdminLTE/2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{webjars/AdminLTE/2.4.2/bower_components/fastclick/lib/fastclick.js}"></script>
+<script th:src="@{webjars/jquery-file-upload/9.18.0/js/vendor/jquery.ui.widget.js}"></script>
+<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.iframe-transport.js}"></script>
+<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload.js}"></script>
+<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-process.js}"></script>
+<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-validate.js}"></script>
+
+
+<script th:src="@{webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.js}"></script>
+<script th:src="@{webjars/bootstrap-table/1.11.1/dist/locale/bootstrap-table-zh-CN.min.js}"></script>
+
+<script th:src="@{webjars/bootstrap-table/1.11.1/dist/extensions/export/bootstrap-table-export.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/js-xlsx/xlsx.core.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/jsPDF/jspdf.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/libs/html2canvas/html2canvas.min.js}"></script>
+<script th:src="@{plug-in/tableExport.jquery.plugin/tableExport.js}"></script>
+
+
+<script th:src="@{js/file_upload.js}"></script>
+
+<script th:src="@{js/util.js}"></script>
+<script th:src="@{js/sidebar.js}"></script>
+<script th:src="@{js/DateUtil.js}"></script>
+<script th:src="@{js/table_hint.js}"></script>
+<script th:src="@{js/table.js}"></script>
+<script th:src="@{js/common.js}"></script>
+<script th:src="@{js/news_info.js}"></script>
+</body>
+</html>

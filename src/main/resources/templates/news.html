@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{plug-in/pagination/2.1.2/pagination.css}">
+    <style>
+        ul{
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+        }
+        img{
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">
+        这是新闻
+    </h1>
+    <div class="row">
+        <ul class="data-container"></ul>
+    </div>
+    <div id="demo" class="center-block" style="width: 400px; visibility: hidden">
+    </div>
+    <!--<ul>
+        <li class="panel panel-default col-md-8 col-md-offset-2">
+            <div class="panel-body row">
+                <div class="col-md-8">
+                    <div class="h2">
+                        这是标题
+                    </div>
+                    <div>
+                        这是内容
+                    </div>
+                    <div class="text-left bottom-left">
+                        作者
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="uploadFiles/file/fileUpload/201806061559340855.png" alt="">
+                </div>
+            </div>
+        </li>
+    </ul>-->
+</div>
+
+<!-- jQuery 3 -->
+<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{plug-in/pagination/2.1.2/pagination.min.js}"></script>
+<script>
+    loadData({
+        url: 'newsInfos/pageable',
+        limit: 2,
+        callback: function(data, pagination){
+            console.log(data);
+            if(!data || !data.length){
+                return;
+            }
+            var i;
+            var lis = [];
+            for(i = 0; i < data.length; i++){
+                var li = '<li class="panel panel-default col-md-8 col-md-offset-2"><div class="panel-body row"><div class="col-md-8"><div class="h3">';
+                li += data[i].title;
+                li += '</div><div>';
+                li += data[i].content;
+                li += '</div><div class="text-left bottom-left">作者</div>';
+                li += '</div><div class="col-md-4"><img class="img-rounded img-responsive" src="';
+                li += data[i].imageUrl;
+                li += '" alt=""></div></div>';
+                li += '</li>';
+                lis[i] = li;
+            }
+            $('.data-container').html(lis.join(''));
+            loadNews();
+        }
+    });
+    function loadData(option){
+        $.getJSON(option.url + '?page=1&limit=1', function(justData){
+            $('#demo').pagination({
+                dataSource: option.url,
+                locator: 'rows',
+                totalNumber: justData['total'],
+                limit: option.limit,
+                ajax: {
+                    beforeSend: function() {
+                        $('#demo').css("visibility", "hidden");
+                        $('.data-container').html('<div class="text-center">加载数据中</div>');
+                    }
+                },
+                callback: option.callback
+            });
+        });
+    }
+
+
+    function loadNews() {
+        $('.data-container li').each(function (index) {
+            $(this).hide();
+            $(this).delay(index * 200).fadeIn();
+            console.log($('.data-container li').length);
+            if(index == ($('.data-container li').length - 1)){
+                $(this).delay(index * 200).fadeIn(function () {
+                    $('#demo').css("visibility", "visible");
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

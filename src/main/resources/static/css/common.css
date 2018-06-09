@@ -55,3 +55,15 @@ jquery validate 错误提示
 .error{
     color:red;
 }
+
+/**
+adminlte主体内容的背景色，解决bootstrap table行分隔线显示问题。
+ */
+.bg-color-white{
+    background-color: white;
+}
+
+table img,.modal img{
+    max-width: 100px;
+    max-height: 100px;
+}

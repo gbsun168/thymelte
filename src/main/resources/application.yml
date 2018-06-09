@@ -44,6 +44,7 @@ server:
   session:
     timeout: 1800
     persistent: true # 重启时是否持久化session，默认false
+  context-path: /thymelte
 
 logging:
   level:

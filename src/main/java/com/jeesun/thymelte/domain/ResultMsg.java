@@ -2,19 +2,22 @@ package com.jeesun.thymelte.domain;
 
 public class ResultMsg {
     private Integer code;
-    private String msg;
+    private String message;
     private Object data;
 
-    public ResultMsg(Integer code, String msg, Object data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
+    public ResultMsg() {
     }
 
-    public ResultMsg(Integer code, String msg) {
+    public ResultMsg(Integer code, String message) {
         this.code = code;
-        this.msg = msg;
+        this.message = message;
         this.data = null;
+    }
+
+    public ResultMsg(Integer code, String message, Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     public Integer getCode() {
@@ -25,12 +28,12 @@ public class ResultMsg {
         this.code = code;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getData() {

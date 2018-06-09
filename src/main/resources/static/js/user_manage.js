@@ -1,9 +1,5 @@
 $(function(){
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function (e, xhr, options) {
-        xhr.setRequestHeader(header, token);
-    });
+    setTokenInHeader();
 
     window.hideHint = function () {
         $('#hint').css('visibility', 'hidden');
@@ -11,47 +7,24 @@ $(function(){
 
     window.ban = function(id) {
         $.post('users/' + id + '/ban', function (data) {
-            $('#hint').text(data.msg);
+            $('#hint').text(data.message);
             $('#hint').css('visibility', 'visible');
             setTimeout('hideHint()', 2000);
-            $("#table").bootstrapTable('refresh', {silent: false});
+            refreshTable('table');
         });
     };
 
     window.unban = function (id) {
         $.post('users/' + id + '/unban', function (data) {
-            $('#hint').text(data.msg);
+            $('#hint').text(data.message);
             $('#hint').css('visibility', 'visible');
             setTimeout('hideHint()', 2000);
-            $("#table").bootstrapTable('refresh', {silent: false});
+            refreshTable('table');
         });
     };
 
-    $("#table").bootstrapTable({
+    initTable('table', {
         url: 'users/all',
-        search: true,
-        showRefresh: true,
-        showToggle: false,
-        showColumns: true,
-        showFooter: false,
-        showFullscreen: true,
-        pagination: true,
-        sidePagination: 'server',
-        pageList: [10, 25, 50, 100],
-        showPaginationSwitch: true,
-        clickToSelect: true,
-        striped: false,
-        showExport: true,
-        exportDataType: 'all',
-        exportTypes: ['json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],
-        exportOptions:{
-            //pdf格式导出显示不全，只能先忽略列
-            ignoreColumn: [0, 5],  //忽略某一列的索引
-            fileName: "报表",  //文件名称设置
-            worksheetName: 'sheet1',  //表格工作区名称
-            tableName: "报表",
-            excelstyles: ['background-color', 'color', 'font-size', 'font-weight']
-        },
         columns: [{
             field: 'state',
             checkbox: true
@@ -89,6 +62,8 @@ $(function(){
                     return '<button class="btn btn-default" onclick="unban(' + row.id + ')">解封</button>';
                 }
             }
-        }]
+        }],
+        ignoreColumn: [0, 5]
     });
+
 });
