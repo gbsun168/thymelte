@@ -114,6 +114,9 @@
                                 <div class="hint warn" th:if="${param.logout}">
                                     您已退出登录
                                 </div>
+                                <div class="hint warn" th:if="${(param.result != null) and (param.result[0] == 'loginAnotherLocation')}">
+                                    您已在其他地点登录
+                                </div>
                                 <div th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" style="text-align: center">
                                     <div id="qrcode"></div>
                                 </div>
