@@ -9,6 +9,7 @@ function initTable(tableId, option) {
         url: option.url,
         toolbar: '#toolbar',
         toolbarAlign: 'left',
+        cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         undefinedText: '',
         search: true,
         showRefresh: true,
@@ -19,6 +20,8 @@ function initTable(tableId, option) {
         showFooter: false,
         showFullscreen: true,
         pagination: true,
+        paginationPreText: '上一页',
+        paginationNextText: '下一页',
         sidePagination: 'server',
         pageNumber: 1,
         pageSize: 5,

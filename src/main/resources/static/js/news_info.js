@@ -15,7 +15,8 @@ $(function(){
         },{
             field: 'title',
             title: '标题',
-            align: 'center'
+            align: 'center',
+            searchable: true
         },{
             field: 'imageUrl',
             title: '缩略图',
@@ -26,7 +27,11 @@ $(function(){
         },{
             field: 'content',
             title: '内容',
-            align: 'center'
+            align: 'center',
+            formatter: function (value, row, index, field) {
+                console.log(decodeURIComponent(value));
+                return '<div style="max-width:600px; text-align: center">' + decodeURIComponent(value) + '</div>';
+            }
         },{
             field: 'publishDate',
             title: '发布时间',
@@ -83,7 +88,8 @@ $(function(){
             $('#form_add input[name="title"]').val($select[0].title);
             $("#form_add .preview").empty();
             $("#form_add .preview").append('<div style="margin-top:10px;"><img src="' +$select[0].imageUrl + '"></div>');
-            $('#form_add input[name="content"]').val($select[0].content);
+            //$('#form_add input[name="content"]').val($select[0].content);//对froalaEditor无效
+            $('textarea').froalaEditor('html.set', $select[0].content);
             //设置filePath
             $('#file_paths').empty();
             $('#file_paths').append('<input type="hidden" name="imageUrl" value="' + $select[0].imageUrl + '">');

@@ -25,7 +25,25 @@
     <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Include external CSS. -->
+    <link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.css" rel="stylesheet">
+
+    <!-- Include Editor style. -->
+    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_editor.pkgd.min.css}">
+    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_style.min.css}">
+
+    <!-- CSS rules for styling the element inside the editor such as p, h1, h2, etc. -->
+    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_style.min.css}">
+
     <link rel="stylesheet" th:href="@{css/common.css}">
+    <style>
+        td {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
 <div class="wrapper">
@@ -65,7 +83,7 @@
             </div>
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog" style="width: 60%">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -98,7 +116,11 @@
                                 <div class="form-group">
                                     <!--<label for="content">正文</label>
                                     <input type="text" class="form-control" id="content" name="content" placeholder="正文">-->
-                                    <div id="content_edit"></div>
+                                    <label for="content">新闻详情</label>
+                                    <!-- Create a tag that we will use as the editable area. -->
+                                    <!-- You can use a div tag as well. -->
+                                    <textarea id="content" name="content"></textarea>
+                                    <!--<input type="hidden" id="content" name="content" placeholder="正文">-->
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -151,6 +173,17 @@
 <script th:src="@{plug-in/tableExport.jquery.plugin/tableExport.js}"></script>
 
 
+<!-- Include external JS libs. -->
+<script src="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.js"></script>
+<script src="https://cdn.bootcss.com/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+<script th:src="@{webjars/froala_editor/2.8.1/js/froala_editor.pkgd.min.js}"></script>
+<script th:src="@{webjars/froala_editor/2.8.1/js/languages/zh_cn.js}"></script>
+<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/file.min.js}"></script>
+<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/image.min.js}"></script>
+<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/draggable.min.js}"></script>
+
+
+
 <script th:src="@{js/file_upload.js}"></script>
 
 <script th:src="@{js/util.js}"></script>
@@ -160,5 +193,110 @@
 <script th:src="@{js/table.js}"></script>
 <script th:src="@{js/common.js}"></script>
 <script th:src="@{js/news_info.js}"></script>
+<!-- Initialize the editor. -->
+<script>
+    $(function () {
+        //必须加这段代码，不然无法上传
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        console.log(header);
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+
+        function initTextarea(){
+            $('textarea').froalaEditor('html.set', '<p>My custom paragraph.</p>');
+        }
+
+        initEditor();
+
+        function initEditor() {
+            $('textarea').froalaEditor({
+                width: '100%',
+                language: 'zh_cn',
+                height: 300,
+                heightMax: 500,
+                heightMin: 200,
+                fileUploadParam: 'file',
+                fileUploadURL: 'uploadFiles/uploadFile',
+                fileUploadParams: {},
+                fileUploadMethod: 'POST',
+                fileMaxSize: 20 * 1024 * 1024,
+                fileAllowedTypes: ['*'],
+                imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+                imageDefaultWidth: 600,
+                imageMaxSize: 1024 * 1024 * 3,
+                imageMinWidth: 600,
+                imageUploadParam: 'file',
+                imageUploadRemoteUrls: false,
+                imageUploadURL: 'uploadFiles/uploadFile',
+                requestHeaders: {
+                    'X-CSRF-TOKEN':token
+                }
+            });
+
+            $('textarea').on('froalaEditor.contentChanged', function (e, editor) {
+                console.log($(this).froalaEditor('html.get', true));
+                $('input[name="content"]').val($(this).froalaEditor('html.get', true));
+            });
+
+            $('textarea').on('froalaEditor.file.uploaded', function (e, editor, response) {
+                console.log("uploaded=" + response);
+            }).on('froalaEditor.file.error', function (e, editor, error, response) {
+                console.log("error=" + JSON.stringify(error));
+                console.log("response" + response);
+                // Bad link.
+                if (error.code == 1) {
+                    console.log("bad link");
+                }
+
+                // No link in upload response.
+                else if (error.code == 2) {
+                    console.log("No link in upload response.");
+                }
+
+                // Error during file upload.
+                else if (error.code == 3) {
+                    console.log("Error during file upload.");
+                }
+
+                // Parsing response failed.
+                else if (error.code == 4) {
+                    console.log("Parsing response failed.");
+                }
+
+                // File too text-large.
+                else if (error.code == 5) {
+                    console.log("File too text-large.");
+                }
+
+                // Invalid file type.
+                else if (error.code == 6) {
+                    console.log("Invalid file type.");
+                }
+
+                // File can be uploaded only to same domain in IE 8 and IE 9.
+                else if (error.code == 7) {
+                    console.log("File can be uploaded only to same domain in IE 8 and IE 9.");
+                }
+
+                // Response contains the original server response to the request if available.
+            });
+
+            $('textarea').on('froalaEditor.image.uploaded', function (e, editor, response) {
+                console.log("uploaded=" + response);
+                var json = jQuery.parseJSON(response);
+                var img_URL = 'uploadFiles/file/' + json.data[0];
+                editor.image.insert(img_URL, false, null, editor.image.get(), null);
+                return false;
+            });
+
+            //$('textarea').off('froalaEditor.file.uploaded');
+            $('textarea').off('froalaEditor.contentChanged');
+            $('textarea').off('froalaEditor.image.uploaded');
+            $('textarea').off('froalaEditor.file.uploaded');
+        }
+    });
+</script>
 </body>
 </html>

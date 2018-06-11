@@ -63,7 +63,12 @@ adminlte主体内容的背景色，解决bootstrap table行分隔线显示问题
     background-color: white;
 }
 
-table img,.modal img{
+table img{
     max-width: 100px;
     max-height: 100px;
+}
+
+.modal img{
+    max-width: 300px;
+    max-height: 300px;
 }
