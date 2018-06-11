@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 文件上传工具类
@@ -41,14 +39,20 @@ public class FileUploadUtil {
             for(int i = 0; i < len; i++){
                 if (!files[i].isEmpty()){
                     try {
-                        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmssSSSS");
-                        String imgUrl = ROOT + "/" + fmt.format(new Date()) + ".png";
+                        //SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+                        String originFileName = files[i].getOriginalFilename();
+                        //String fileType = originFileName.substring(originFileName.lastIndexOf("."));
+                        //logger.info("originFileName=" + originFileName);
+                        //logger.info("fileType=" + fileType);
+                        //String imgUrl = ROOT + "/" + fmt.format(new Date()) + fileType;
+
+                        String imgUrl = ROOT + "/" + originFileName;
                         Path path = Paths.get(imgUrl);
                         if (!Files.exists(path)){
                             Files.copy(files[i].getInputStream(), path);
-                            logger.info(files[i].getName());
-                            logger.info(files[i].getOriginalFilename());
-                            logger.info(files[i].getContentType());
+                            //logger.info(files[i].getName());
+                            //logger.info(files[i].getOriginalFilename());
+                            //logger.info(files[i].getContentType());
                         }
                         imgUrlArr[i] = imgUrl;
                     } catch (IOException e) {

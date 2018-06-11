@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -69,6 +70,7 @@ public class NewsInfoController {
 
         newsInfo.setTitle(title);
         newsInfo.setContent(content);
+        //logger.info(HtmlUtils.htmlEscape(content));
         newsInfo.setPublishDate(new Date());
         newsInfo.setStatus(AppConfig.PUBLISH_STATUS.PUBLISH.ordinal());
         newsInfo.setUserId(userEntity.getId());

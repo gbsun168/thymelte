@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 上传文件
@@ -57,17 +59,35 @@ public class UploadFileController {
         }
     }
 
+    @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> uploadTest(@RequestParam("file") MultipartFile[] files){
+        Map<String, Object> resultMap = new HashMap<>();
+        String[] savedFiles = FileUploadUtil.saveFiles(files);
+        if(null == savedFiles || savedFiles.length <= 0){
+            resultMap.put("link", null);
+        }else{
+            StringBuffer filePath = new StringBuffer();
+            filePath.append("uploadFiles");
+            filePath.append("/file/");
+            filePath.append(savedFiles[0]);
+            resultMap.put("link", filePath);
+        }
+
+        return resultMap;
+    }
+
     @RequestMapping(value = "/file/**", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getFile(HttpServletRequest request, HttpServletResponse response) {
         String filePath = request.getRequestURI();
-        logger.info(filePath);
+        //logger.info(filePath);
         filePath = filePath.substring(filePath.indexOf("uploadFiles/file/") + "uploadFiles/file/".length());
-        logger.info(filePath);
+        //logger.info(filePath);
         String fileRoot = filePath.substring(0, filePath.lastIndexOf("/"));
-        logger.info(fileRoot);
+        //logger.info(fileRoot);
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        logger.info(fileName);
+        //logger.info(fileName);
         try {
             return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(fileRoot, fileName).toString()));
         } catch (Exception e) {
