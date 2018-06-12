@@ -31,6 +31,23 @@ spring:
     show-sql: true
   jackson:
     serialization: true
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2313036302@qq.com
+    password: xjtekyebkhifdjad
+    properties:
+      mail:
+        debug: true
+        stmp:
+          auth: true
+          timeout: 25000
+          starttls:
+            enable: true
+            required: true
+    default-encoding: UTF-8
+
 security:
   basic:
     enabled: false
