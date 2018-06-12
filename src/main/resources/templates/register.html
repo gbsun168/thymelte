@@ -9,20 +9,20 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>注册</title>
     <!--[if lt IE 9]>
-    <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-    <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
-    <script src="webjars/excanvas/3/excanvas.js"></script>
-    <script src="webjars/excanvas/3/excanvas.compiled.js"></script>
+    <script src="/thymelte/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="/thymelte/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <script src="/thymelte/webjars/excanvas/3/excanvas.js"></script>
+    <script src="/thymelte/webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
     <style>
         html, body {
             height:100%;
             background-color: #2D2D2D;
         }
     </style>
-    <link rel="stylesheet" th:href="@{css/common.css}">
-    <link rel="stylesheet" th:href="@{css/coverr.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/coverr.css}">
 </head>
 <body>
 <div class="homepage-hero-module">
@@ -69,12 +69,12 @@
 </div>
 
 <!-- jQuery 3 -->
-<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-<script th:src="@{webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
-<script th:src="@{webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
-<script th:src="@{js/login-form.js}"></script>
-<script th:src="@{js/coverr.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{/js/login-form.js}"></script>
+<script th:src="@{/js/coverr.js}"></script>
 </body>
 </html>

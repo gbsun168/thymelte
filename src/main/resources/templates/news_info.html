@@ -31,13 +31,13 @@
     <link href="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.css" rel="stylesheet">
 
     <!-- Include Editor style. -->
-    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_editor.pkgd.min.css}">
-    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_style.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/froala_editor/2.8.1/css/froala_editor.pkgd.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/froala_editor/2.8.1/css/froala_style.min.css}">
 
     <!-- CSS rules for styling the element inside the editor such as p, h1, h2, etc. -->
-    <link rel="stylesheet" th:href="@{webjars/froala_editor/2.8.1/css/froala_style.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/froala_editor/2.8.1/css/froala_style.min.css}">
 
-    <link rel="stylesheet" th:href="@{css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <style>
         td {
             white-space: normal;
@@ -145,42 +145,42 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
-<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 <!-- AdminLTE App -->
-<script th:src="@{webjars/AdminLTE/2.4.2/dist/js/adminlte.min.js}"></script>
-<script th:src="@{webjars/AdminLTE/2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
-<script th:src="@{webjars/AdminLTE/2.4.2/bower_components/fastclick/lib/fastclick.js}"></script>
-<script th:src="@{webjars/jquery-file-upload/9.18.0/js/vendor/jquery.ui.widget.js}"></script>
-<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.iframe-transport.js}"></script>
-<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload.js}"></script>
-<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-process.js}"></script>
-<script th:src="@{webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-validate.js}"></script>
+<script th:src="@{/webjars/AdminLTE/2.4.2/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/webjars/AdminLTE/2.4.2/bower_components/fastclick/lib/fastclick.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/vendor/jquery.ui.widget.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.iframe-transport.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-process.js}"></script>
+<script th:src="@{/webjars/jquery-file-upload/9.18.0/js/jquery.fileupload-validate.js}"></script>
 
 
-<script th:src="@{webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.js}"></script>
-<script th:src="@{webjars/bootstrap-table/1.11.1/dist/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/locale/bootstrap-table-zh-CN.min.js}"></script>
 
-<script th:src="@{webjars/bootstrap-table/1.11.1/dist/extensions/export/bootstrap-table-export.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/js-xlsx/xlsx.core.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/jsPDF/jspdf.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/pdfmake/pdfmake.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/pdfmake/vfs_fonts.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/libs/html2canvas/html2canvas.min.js}"></script>
-<script th:src="@{plug-in/tableExport.jquery.plugin/tableExport.js}"></script>
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/extensions/export/bootstrap-table-export.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/js-xlsx/xlsx.core.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/jsPDF/jspdf.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/html2canvas/html2canvas.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/tableExport.js}"></script>
 
 
 <!-- Include external JS libs. -->
 <script src="https://cdn.bootcss.com/codemirror/5.25.0/codemirror.min.js"></script>
 <script src="https://cdn.bootcss.com/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-<script th:src="@{webjars/froala_editor/2.8.1/js/froala_editor.pkgd.min.js}"></script>
-<script th:src="@{webjars/froala_editor/2.8.1/js/languages/zh_cn.js}"></script>
-<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/file.min.js}"></script>
-<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/image.min.js}"></script>
-<script th:src="@{webjars/froala_editor/2.8.1/js/plugins/draggable.min.js}"></script>
+<script th:src="@{/webjars/froala_editor/2.8.1/js/froala_editor.pkgd.min.js}"></script>
+<script th:src="@{/webjars/froala_editor/2.8.1/js/languages/zh_cn.js}"></script>
+<script th:src="@{/webjars/froala_editor/2.8.1/js/plugins/file.min.js}"></script>
+<script th:src="@{/webjars/froala_editor/2.8.1/js/plugins/image.min.js}"></script>
+<script th:src="@{/webjars/froala_editor/2.8.1/js/plugins/draggable.min.js}"></script>
 
 
 

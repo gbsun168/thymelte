@@ -8,12 +8,12 @@
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <!--[if lt IE 9]>
-    <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-    <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
-    <script src="webjars/excanvas/3/excanvas.js"></script>
-    <script src="webjars/excanvas/3/excanvas.compiled.js"></script>
+    <script src="/thymelte/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="/thymelte/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <script src="/thymelte/webjars/excanvas/3/excanvas.js"></script>
+    <script src="/thymelte/webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
     <style>
         html, body {
             height:100%;
@@ -66,8 +66,8 @@
             background-color: red;
         }
     </style>
-    <link rel="stylesheet" th:href="@{css/common.css}">
-    <link rel="stylesheet" th:href="@{css/coverr.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/coverr.css}">
 </head>
 <body>
 <div class="homepage-hero-module">
@@ -141,6 +141,18 @@
                                                 </canvas>
                                             </div>
                                         </div>
+                                        <div class="checkbox row">
+                                            <div class="col-sm-8">
+                                                <label>
+                                                    <input type="checkbox">记住密码
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="text-right">
+                                                    <a href="#">忘记密码？</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="input_control">
                                             <button class="btn btn-primary" type="submit" style="width: 100%">登录</button>
                                         </div>
@@ -161,18 +173,18 @@
 
 
 <!-- jQuery 3 -->
-<script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script th:src="@{webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-<script th:src="@{webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
-<script th:src="@{webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
-<script th:src="@{webjars/jquery-cookie/1.4.1-1/jquery.cookie.js}"></script>
-<script th:src="@{webjars/qrcodejs/1c78ccd/qrcode.min.js}"></script>
-<script th:src="@{js/common.js}"></script>
-<script th:src="@{js/vcode.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
-<script th:src="@{js/login.js}"></script>
-<script th:src="@{js/login-form.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
-<script th:src="@{js/login-qrcode.js}" th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
-<script th:src="@{js/coverr.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
+<script th:src="@{/webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js}"></script>
+<script th:src="@{/webjars/qrcodejs/1c78ccd/qrcode.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/vcode.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
+<script th:src="@{/js/login.js}"></script>
+<script th:src="@{/js/login-form.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
+<script th:src="@{/js/login-qrcode.js}" th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
+<script th:src="@{/js/coverr.js}"></script>
 </body>
 </html>
