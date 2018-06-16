@@ -3,7 +3,6 @@ package com.jeesun.thymelte.config;
 import com.jeesun.thymelte.custom.ErrorPageInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -28,14 +27,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/news_info").setViewName("news_info");
         registry.addViewController("/news_info_edit").setViewName("news_info_edit");
         registry.addViewController("/news").setViewName("news");
-
+        registry.addViewController("/forget_password").setViewName("forget_password");
+        registry.addViewController("/reset_password").setViewName("reset_password");
         registry.addViewController("/error/404").setViewName("error/404");
+        registry.addViewController("/error/500").setViewName("error/500");
     }
 
-    @Override
+    //项目完成的差不多时，再找时间自定义异常页面。
+    /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
         registry.addInterceptor(errorPageInterceptor);//.addPathPatterns("/action/**", "/mine/**");默认所有
         super.addInterceptors(registry);
-    }
+    }*/
 }

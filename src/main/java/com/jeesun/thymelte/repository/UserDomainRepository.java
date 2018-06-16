@@ -19,4 +19,6 @@ public interface UserDomainRepository extends JpaRepository<UserDomain, String> 
 
     @Query(value = "SELECT COUNT(a.*) FROM users a WHERE NOT EXISTS (SELECT * FROM authorities b WHERE a.username=b.username AND (b.authority = 'ROLE_ADMIN' OR b.authority = 'ROLE_SU'))", nativeQuery = true)
     int countAllByAuthority();
+
+    UserDomain findByUsernameOrEmail(String username, String email);
 }

@@ -37,6 +37,9 @@ $().ready(function() {
         //每次生成code先将其清空防止叠加
         code = "";
         var canvas = document.getElementById("codeimg");
+        if(!canvas){
+            return null;
+        }
         var context = canvas.getContext("2d");
 
         //清空画布
@@ -50,7 +53,7 @@ $().ready(function() {
             drawline(canvas, context);
         }
 
-        //循环生成5位验证码
+        //循环生成4位验证码
         for (var k = 0; k < 4; k++) {
             context.font='76px Arial';
             //将初始状态保存

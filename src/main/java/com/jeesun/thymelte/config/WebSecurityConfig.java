@@ -49,14 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().ignoringAntMatchers("/druid/*")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/logout", "/register", "/register_result").permitAll()
-                .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**", "/video/**", "plug-in/**").permitAll()
+                .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**", "/video/**", "/plug-in/**").permitAll()
+                .antMatchers("/login", "/logout", "/register", "/register_result", "/forget_password", "/reset_password", "/users/sendEmail", "/users/resetPassword", "/users/forgetPwd","/users/check", "/users/resetPwd", "/users/test").permitAll()
                 .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**", "/users/register").permitAll()
                 .antMatchers("/user-manage").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .rememberMe()
-        .and().csrf().ignoringAntMatchers("/register", "/users/register");
+        .and().csrf().ignoringAntMatchers("/register", "/users/register", "/users/forgetPwd");
 
         //只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
         http
