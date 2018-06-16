@@ -15,9 +15,13 @@
     <![endif]-->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
     <style>
-        html, body {
+        body {
+            width: 100%;
             height:100%;
             background-color: #2D2D2D;
+            overflow:scroll;
+            overflow-x:hidden;
+            overflow-y:hidden;
         }
 
         #code,#codeimg{
@@ -85,25 +89,35 @@
             <div class="inner-wrapper">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-4 col-sm-offset-4">
-                            <div class="form-signin">
-
+                        <div class="col-sm-4 col-sm-offset-4" style="background-color: white;height: 500px;">
+                            <!--  th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" -->
+                            <div id="form-qrcode" class="form-signin" style="height: 500px;display: none">
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3 text-center">
-                                        <h2 th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">扫码登录</h2>
-                                        <h2 th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">欢迎登录</h2>
+                                        <h2 >扫码登录</h2>
                                     </div>
                                     <div class="col-sm-3 text-right">
-                                        <img th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" class="switchMode" th:src="@{img/pc-40x40.png}">
-                                        <img th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" class="switchMode" th:src="@{img/qrcode-40x40.png}">
+                                        <img class="switchMode" th:src="@{/img/pc-40x40.png}">
                                     </div>
                                 </div>
-
                                 <div id="refreshQrCode" class="hint warn">
                                     二维码已失效，请点击<a style="color: #00BDFF;">刷新</a>
                                 </div>
                                 <div id="jumpHint" class="hint success">
                                     登录成功，正在跳转...
+                                </div>
+                                <div class="text-center">
+                                    <div id="qrcode"></div>
+                                </div>
+                            </div>
+                            <div id="form-normal" class="form-signin" style="height: 500px;display: inline">
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3 text-center">
+                                        <h2 >欢迎登录</h2>
+                                    </div>
+                                    <div class="col-sm-3 text-right">
+                                        <img class="switchMode" th:src="@{/img/qrcode-40x40.png}">
+                                    </div>
                                 </div>
                                 <div class="hint warn" th:if="${(param.result != null) and (param.result[0] == 'disabled')}">
                                     您已被封号
@@ -117,10 +131,7 @@
                                 <div class="hint warn" th:if="${(param.result != null) and (param.result[0] == 'loginAnotherLocation')}">
                                     您已在其他地点登录
                                 </div>
-                                <div th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}" style="text-align: center">
-                                    <div id="qrcode"></div>
-                                </div>
-                                <div th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}">
+                                <div>
                                     <form th:action="@{login}" method="post" id="loginForm" class="custom_form">
                                         <div class="form-group">
                                             <label for="username">账号</label>
@@ -170,8 +181,6 @@
     </div>
 </div>
 
-
-
 <!-- jQuery 3 -->
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -181,10 +190,10 @@
 <script th:src="@{/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js}"></script>
 <script th:src="@{/webjars/qrcodejs/1c78ccd/qrcode.min.js}"></script>
 <script th:src="@{/js/common.js}"></script>
-<script th:src="@{/js/vcode.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
+<script th:src="@{/js/vcode.js}"></script>
+<script th:src="@{/js/login-form.js}"></script>
+<script th:src="@{/js/login-qrcode.js}"></script>
 <script th:src="@{/js/login.js}"></script>
-<script th:src="@{/js/login-form.js}" th:unless="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
-<script th:src="@{/js/login-qrcode.js}" th:if="${(param.qrcode != null) and (param.qrcode[0] == 'true')}"></script>
 <script th:src="@{/js/coverr.js}"></script>
 </body>
 </html>
