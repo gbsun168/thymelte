@@ -29,7 +29,7 @@ $(function(){
             title: '内容',
             align: 'center',
             formatter: function (value, row, index, field) {
-                console.log(decodeURIComponent(value));
+                //console.log(decodeURIComponent(value));
                 return '<div style="max-width:600px; text-align: center">' + decodeURIComponent(value) + '</div>';
             }
         },{
