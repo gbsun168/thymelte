@@ -15,7 +15,7 @@
     <link th:href="@{/webjars/ionicons/2.0.1/css/ionicons.min.css}" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/AdminLTE.min.css}">
-    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/skins/skin-blue.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/skins/_all-skins.min.css}">
     <link rel="stylesheet" th:href="@{/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload.css}">
     <link rel="stylesheet" th:href="@{/webjars/jquery-file-upload/9.18.0/css/jquery.fileupload-ui.css}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,15 +24,16 @@
     <script src="webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
     <script src="webjars/respond/1.4.2/dest/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed">
+<body class="hold-transition sidebar-mini fixed">
 <div class="wrapper">
 
     <div th:replace="components/header :: header"></div>
     <div th:replace="components/sidebar :: sidebar"></div>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper bg-color-white">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>

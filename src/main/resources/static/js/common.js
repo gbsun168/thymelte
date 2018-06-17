@@ -27,3 +27,18 @@ $('.sidebar-menu li').each(function () {
         $(this).parents(".treeview").addClass("active");
     }
 });
+
+var theme = $.cookie('theme');
+console.log(theme);
+if(!theme || null == theme){
+    theme = 'blue';
+    $.cookie('theme', theme);
+}
+changeTheme(theme);
+
+function changeTheme(themeName) {
+    /*$('body').removeClass('skin-blue skin-blue-light skin-green skin-green-light skin-red skin-red-light skin-black skin-black-light skin-purple skin-purple-light skin-yellow skin-yellow-light');*/
+    $('body').removeClass('skin-' + $.cookie('theme'));
+    $('body').addClass('skin-' + themeName);
+    $.cookie('theme', themeName);
+}
