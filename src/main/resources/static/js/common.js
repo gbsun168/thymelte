@@ -12,37 +12,18 @@ function setTokenInHeader() {
     });
 }
 
-//左侧菜单栏点击事件
-$('.sidebar-menu li').click(function () {
-    var id = $(this).attr('id');
-    var page = id.substring(id.indexOf('page_') + 'page_'.length);
-    $('.sidebar-menu li').each(function () {
-        $(this).removeClass("active");
-    });
-    $(this).addClass("active");
-    $(this).parents(".treeview").addClass("active");
+//左侧菜单栏选中事件初始化
+$('.sidebar-menu li').each(function () {
+    $(this).removeClass("active");
 });
-
-
-var themeLink = document.getElementById("theme_link");
-
-//初始化主题
-loadTheme();
-
-function changeTheme(color){
-    console.log("color=" + color);
-    themeLink.href = "css/theme/"+color+".css";
-    //保存主题到cookies
-    $.cookie('theme', color);
-    //loadTheme();
-}
-
-function loadTheme(){
-    //从cookies读取主题
-    var themeValue = $.cookie('theme');
-    if(themeValue == null){
-        themeLink.href = "css/theme/default.css";
-    }else{
-        themeLink.href = "css/theme/" + themeValue + ".css";
+var pathValue = window.location.href;
+var pathName = pathValue.substring(pathValue.lastIndexOf('/') + 1);
+$('.sidebar-menu li').each(function () {
+    if(pathName == '' && $(this).children('a').attr('href').indexOf('index') != -1){
+        $(this).addClass("active");
+        $(this).parents(".treeview").addClass("active");
+    }else if(pathName != ''&& $(this).children('a').attr('href').indexOf(pathName) != -1){
+        $(this).addClass("active");
+        $(this).parents(".treeview").addClass("active");
     }
-}
+});
