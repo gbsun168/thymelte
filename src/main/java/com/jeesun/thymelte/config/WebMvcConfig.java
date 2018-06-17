@@ -17,15 +17,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("/second").setViewName("second");
-        registry.addViewController("/third").setViewName("third");
-        registry.addViewController("/forth").setViewName("forth");
         registry.addViewController("/user_manage").setViewName("user_manage");
         registry.addViewController("/register").setViewName("register");
         registry.addViewController("/register_result").setViewName("register_result");
         registry.addViewController("/just_test").setViewName("just_test");
         registry.addViewController("/news_info").setViewName("news_info");
-        registry.addViewController("/news_info_edit").setViewName("news_info_edit");
         registry.addViewController("/news").setViewName("news");
         registry.addViewController("/forget_password").setViewName("forget_password");
         registry.addViewController("/reset_password").setViewName("reset_password");
