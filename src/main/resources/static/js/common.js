@@ -12,6 +12,18 @@ function setTokenInHeader() {
     });
 }
 
+//左侧菜单栏点击事件
+$('.sidebar-menu li').click(function () {
+    var id = $(this).attr('id');
+    var page = id.substring(id.indexOf('page_') + 'page_'.length);
+    $('.sidebar-menu li').each(function () {
+        $(this).removeClass("active");
+    });
+    $(this).addClass("active");
+    $(this).parents(".treeview").addClass("active");
+});
+
+
 var themeLink = document.getElementById("theme_link");
 
 //初始化主题
