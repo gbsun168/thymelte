@@ -45,7 +45,7 @@
         }
     </style>
 </head>
-<body class="hold-transition sidebar-mini fixed">
+<body th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('theme')}" th:class="'hold-transition sidebar-mini fixed ' + ${cookie.getValue()}">
 <div class="wrapper">
 
     <div th:replace="components/header :: header"></div>

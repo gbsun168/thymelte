@@ -28,17 +28,17 @@ $('.sidebar-menu li').each(function () {
     }
 });
 
-var theme = $.cookie('theme');
+/*var theme = $.cookie('theme');
 console.log(theme);
 if(!theme || null == theme){
     theme = 'blue';
     $.cookie('theme', theme);
 }
-changeTheme(theme);
+changeTheme(theme);*/
 
 function changeTheme(themeName) {
     /*$('body').removeClass('skin-blue skin-blue-light skin-green skin-green-light skin-red skin-red-light skin-black skin-black-light skin-purple skin-purple-light skin-yellow skin-yellow-light');*/
-    $('body').removeClass('skin-' + $.cookie('theme'));
-    $('body').addClass('skin-' + themeName);
-    $.cookie('theme', themeName);
+    $('body').removeClass($.cookie('theme'));
+    $('body').addClass(themeName);
+    $.cookie('theme', themeName, {expires: 30});
 }

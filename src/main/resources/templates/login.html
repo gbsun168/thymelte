@@ -195,5 +195,11 @@
 <script th:src="@{/js/login-qrcode.js}"></script>
 <script th:src="@{/js/login.js}"></script>
 <script th:src="@{/js/coverr.js}"></script>
+<script>
+    var theme = $.cookie('theme');
+    if(!theme || null == theme){
+        changeTheme('skin-blue');
+    }
+</script>
 </body>
 </html>
