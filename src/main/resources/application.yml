@@ -39,7 +39,7 @@ spring:
     password: xjtekyebkhifdjad
     properties:
       mail:
-        debug: true
+        debug: false
         stmp:
           auth: true
           timeout: 25000
@@ -47,7 +47,13 @@ spring:
             enable: true
             required: true
     default-encoding: UTF-8
-
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirms: true #必须要设置，才能进行消息的回调
 security:
   basic:
     enabled: false

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -59,6 +60,9 @@ public class UserController {
 
     @Value("${spring.mail.username}")
     private String sender; //读取配置文件中的参数
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
     /**
      * 退出登录
      * @param request
@@ -260,7 +264,7 @@ public class UserController {
             attributes.addAttribute("step", 2);
             attributes.addAttribute("username", userDomain.getUsername());
             attributes.addAttribute("email", userDomain.getEmail());
-            sendEmail(userDomain.getUsername(), request, response);
+            amqpTemplate.convertAndSend("email", userDomain.getUsername());
         }else{
             logger.error("用户不存在");
             attributes.addAttribute("step", -1);
@@ -274,14 +278,13 @@ public class UserController {
     public ResultMsg resendEmail(@RequestParam String username,
                                  HttpServletRequest request,
                                  HttpServletResponse response){
-        return sendEmail(username, request, response);
+        amqpTemplate.convertAndSend("email", username);
+        return new ResultMsg(200, "邮件发送成功");
     }
 
 
     //根据用户名或者邮箱发送重置密码邮件
-    public ResultMsg sendEmail(String username,
-                               HttpServletRequest request,
-                               HttpServletResponse response){
+    public ResultMsg sendEmail(String username){
         //生成密钥
         String secretKey = UUID.randomUUID().toString();
 
@@ -321,10 +324,11 @@ public class UserController {
             resetPasswordInfo.setValid(true);
             resetPasswordInfo = resetPasswordInfoRepository.save(resetPasswordInfo);
 
-            String path=request.getContextPath();
+            /*String path=request.getContextPath();
             logger.info("path = " + path);
 
-            String basePath = request.getScheme() + "://"+request.getServerName() + ":" + request.getServerPort() + path;
+            String basePath = request.getScheme() + "://"+request.getServerName() + ":" + request.getServerPort() + path;*/
+            String basePath = "http://localhost:8099";
             logger.info("basePath = " + basePath);
 
             StringBuffer emailContent = new StringBuffer();
