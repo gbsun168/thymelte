@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.13.RELEASE</version>
+		<version>1.5.14.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -96,6 +96,10 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -277,12 +281,13 @@
 			<version>2.1.3</version>
 		</dependency>
 
-		<!-- 自定义的jar -->
+		<!-- 自定义的jar start -->
 		<dependency>
 			<groupId>org.webjars.bower</groupId>
 			<artifactId>FroalaWysiwygEditor</artifactId>
 			<version>2.8.1</version>
 		</dependency>
+		<!-- 自定义的jar end -->
 
         <dependency>
 			<groupId>org.postgresql</groupId>
