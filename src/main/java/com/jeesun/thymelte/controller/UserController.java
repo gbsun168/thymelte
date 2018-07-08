@@ -164,7 +164,8 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/users/register")
-    public String register(@RequestParam String username, @RequestParam String password){
+    @ResponseBody
+    public ResultMsg register(@RequestParam String username, @RequestParam String password){
         UserDomain userDomain = userDomainRepository.findByUsername(username);
         if(null == userDomain){
             userDomain = new UserDomain();
@@ -186,10 +187,17 @@ public class UserController {
             userInfo.setUsername(username);
             userInfo = userInfoRepository.save(userInfo);
 
-            return "redirect:/register_result?success";
+            return new ResultMsg(200, "注册成功");
         }else{
-            return "redirect:/register_result?usernameExists";
+            return new ResultMsg(404, "注册失败，用户已存在");
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/users/checkExists")
+    @ResponseBody
+    public boolean register(@RequestParam String username) {
+        UserDomain userDomain = userDomainRepository.findByUsername(username);
+        return (null == userDomain);
     }
 
     @RequestMapping(value = "/users/forgetPwd", method = RequestMethod.GET)

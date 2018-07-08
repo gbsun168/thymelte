@@ -11,7 +11,7 @@ $().ready(function() {
         return validate(value);
     }, "验证码错误");
 
-    $(".custom_form").validate({
+    $("#loginForm").validate({
         rules:{
             username: {
                 required: true,

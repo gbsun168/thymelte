@@ -14,7 +14,9 @@
     <script src="/thymelte/webjars/excanvas/3/excanvas.js"></script>
     <script src="/thymelte/webjars/excanvas/3/excanvas.compiled.js"></script>
     <![endif]-->
+    <link th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/plug-in/buttonLoader/jquery/plugin/buttonLoader.css}">
     <style>
         html, body {
             height:100%;
@@ -42,7 +44,7 @@
                     <div class="row">
                         <div class="col-sm-4 col-sm-offset-4">
                             <h2 class="text-center" style="color: white">thymelte系统</h2>
-                            <form th:action="@{users/register}" role="form" method="post" class="form-signin custom_form bg-color-white">
+                            <form id="registerForm" th:action="@{users/register}" role="form" method="post" class="form-signin bg-color-white">
                                 <h2 class="form-signin-heading text-center">请注册</h2>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
@@ -53,8 +55,12 @@
                                     <label for="password">密码</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
                                 </div>
+                                <div class="form-group">
+                                    <label for="verifyPassword">确认密码</label>
+                                    <input type="password" class="form-control" id="verifyPassword" name="verifyPassword" placeholder="请输入密码">
+                                </div>
                                 <div class="row text-center">
-                                    <button type="submit" class="btn btn-primary" style="width: 92%">注册</button>
+                                    <button type="submit" class="btn btn-primary has-spinner" style="width: 92%">注册</button>
                                 </div>
                                 <div class="text-center" style="margin-top: 10px">
                                     已有账号？返回<a th:href="@{login}">登录</a>
@@ -74,8 +80,62 @@
 <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js}"></script>
 <script th:src="@{/webjars/jquery-validation/1.17.0/src/localization/messages_zh.js}"></script>
+<script th:src="@{/plug-in/buttonLoader/jquery/plugin/jquery.buttonLoader.js}"></script>
 <script th:src="@{/js/common.js}"></script>
-<script th:src="@{/js/login-form.js}"></script>
+<script th:src="@{/js/register_form.js}"></script>
 <script th:src="@{/js/coverr.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('#registerForm').on('submit', function () {
+            registerPost();
+
+            //阻止form表单默认提交
+            var event = event || window.event;
+            event.preventDefault(); // 兼容标准浏览器
+            window.event.returnValue = false; // 兼容IE6~8
+        });
+
+        function registerPost(){
+            $.ajax({
+                type: "post",
+                url: "users/register",
+                data: $('#registerForm').serialize(),
+                beforeSend: function () {
+                    $('#registerForm input').attr('disabled', true);
+                    var btn = $('.has-spinner');
+                    $(btn).buttonLoader('loading', "加载中");
+
+                },
+                success: function (data) {
+                    data = eval(data);
+                    var btn = $('.has-spinner');
+                    if(200 == data.code){
+                        $(btn).buttonLoader('success', "注册成功，正在跳转...");
+                        setTimeout(function () {
+                            window.location.href = 'login';
+                        }, 2000);
+                    }else{
+                        setTimeout(function () {
+                            $(btn).buttonLoader('error', "注册失败");
+                        }, 1000);
+                    }
+                },
+                complete: function () {
+
+                },
+                error: function (data) {
+                    $('#registerForm input').attr('disabled', false);
+                }
+            });
+        }
+        /*$('.has-spinner').click(function () {
+            var btn = $(this);
+            $(btn).buttonLoader('start');
+            setTimeout(function () {
+                $(btn).buttonLoader('stop');
+            }, 3000);
+        });*/
+    });
+</script>
 </body>
 </html>
