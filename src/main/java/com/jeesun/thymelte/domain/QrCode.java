@@ -1,69 +1,45 @@
 package com.jeesun.thymelte.domain;
 
+import com.simon.common.utils.SnowflakeGenId;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+import tk.mybatis.mapper.annotation.KeySql;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Table
+/**
+* @author SimonSun
+* @create 2018-08-17 23:33:01
+**/
+@ApiModel(description = "QrCode")
+@Data
 @Entity
-public class QrCode {
+@Table(name="qr_code")
+public class QrCode implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;//扫码id
-    private String username;//扫码人
-    private String token;//扫码人token
-    private String sid;//扫码唯一标识
-    private Boolean isOk;//是否已经扫码
+    @KeySql(genId = SnowflakeGenId.class)
+    @GeneratedValue(generator = "sequenceId")
+    @GenericGenerator(name = "sequenceId", strategy = "com.simon.common.utils.snowflake.SequenceId")
+    private Long id;
 
-    public QrCode() {
-    }
+    @ApiModelProperty(value = "is_ok")
+    @Column(name = "is_ok")
+    private Boolean isOk;
 
-    public Long getId() {
-        return id;
-    }
+    @ApiModelProperty(value = "sid")
+    @Column(name = "sid")
+    private String sid;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ApiModelProperty(value = "token")
+    @Column(name = "token")
+    private String token;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-    public Boolean getOk() {
-        return isOk;
-    }
-
-    public void setOk(Boolean ok) {
-        isOk = ok;
-    }
-
-    @Override
-    public String toString() {
-        return "QrCode{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", token='" + token + '\'' +
-                ", sid='" + sid + '\'' +
-                ", isOk=" + isOk +
-                '}';
-    }
+    @ApiModelProperty(value = "username")
+    @Column(name = "username")
+    private String username;
 }

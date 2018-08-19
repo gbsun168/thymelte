@@ -1,55 +1,66 @@
 package com.jeesun.thymelte.custom;
 
+import com.jeesun.thymelte.config.AppConfig;
+import com.jeesun.thymelte.domain.Authority;
 import com.jeesun.thymelte.domain.UserEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 
+@Slf4j
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
-    private static Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
-
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private Locale locale = AppConfig.getLocale();
 
     private final String sqlLoadUser;
     private final String sqlLoadAuthorities;
     private final RowMapper<UserEntity> myUserDetailsRowMapper;
-    private final RowMapper<GrantedAuthority> authorityRowMapper;
+    private final RowMapper<Authority> authorityRowMapper;
 
     public CustomUserDetailsService() {
         super();
         sqlLoadUser = "select id,username,password,enabled,phone,email from users where username=? OR phone=? OR email=?";
-        sqlLoadAuthorities = "select authority from authorities where username = ?";
+        sqlLoadAuthorities = "select user_id,authority from authorities where user_id = ?";
 
         myUserDetailsRowMapper = (rs, i) -> new UserEntity(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getString("phone"), rs.getString("email"));
 
-        authorityRowMapper = (rs,i) -> new SimpleGrantedAuthority(rs.getString(1));
+        authorityRowMapper = (rs,i) -> {
+            Authority authority = new Authority();
+            authority.setUserId(rs.getLong(1));
+            authority.setAuthority(rs.getString(2));
+            return authority;
+        };
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         try{
             UserEntity userFromQuery = jdbcTemplate.queryForObject(sqlLoadUser, myUserDetailsRowMapper, s, s, s);
-            logger.info("查询得到用户：{}", userFromQuery);
-            List<GrantedAuthority> authorities = jdbcTemplate.query(sqlLoadAuthorities, authorityRowMapper, userFromQuery.getUsername());
-            logger.info("得到其权限：{}", authorities);
+            log.info("查询得到用户：{}", userFromQuery);
+            List<Authority> authorities = jdbcTemplate.query(sqlLoadAuthorities, authorityRowMapper, userFromQuery.getId());
+            log.info("得到其权限：{}", authorities);
 
             return new UserEntity(userFromQuery.getId(), userFromQuery.getUsername(), userFromQuery.getPassword(), userFromQuery.isEnabled(), userFromQuery.getPhone(), userFromQuery.getEmail(), authorities);
         }catch (EmptyResultDataAccessException e){
-            logger.info("查询结果集为空：{}", s);
-            throw new UsernameNotFoundException("用户名或密码不正确");
+            log.info("查询结果集为空：{}", s);
+            throw new InvalidGrantException(messageSource.getMessage("usernameNotFound", null, locale));
         }
     }
 }

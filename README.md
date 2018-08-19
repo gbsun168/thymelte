@@ -18,7 +18,8 @@
 ![主页面](screenshots/2018-04-22_030226.png)
 
 ## 使用流程
-1. 首先你需要建立PostgreSQL数据库。使用navicat执行`src/main/resources/schema-pg.sql`。
-2. 修改`src/main/resources/applicaion.yml`的数据库连接信息：
-- jasypt.encryptor.password: 用于数据库连接新息的jasypt加密的密码。最好自定义更复杂的密码。
-- spring.datasource: 配置数据库连接信息。**注意，此处的用户名和密码信息必须是加密过后的字符串，不能是明文。加密是通过测试类UtilTests的jasyptTest方法进行的。**
+1. 建表  
+请参照`oauthserver`模块的说明文档，执行建表语句。  
+`oauthserver`项目地址：
+- [gitee](https://gitee.com/jeesun/oauthserver)
+- [github](https://github.com/jeesun/oauthserver)

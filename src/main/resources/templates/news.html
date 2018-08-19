@@ -18,6 +18,9 @@
             max-width: 200px;
             max-height: 200px;
         }
+        .paginationjs{
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -28,7 +31,7 @@
     <div class="row">
         <ul class="data-container"></ul>
     </div>
-    <div id="demo" class="center-block" style="width: 400px; visibility: hidden">
+    <div id="demo" style="text-align: center">
     </div>
     <!--<ul>
         <li class="panel panel-default col-md-8 col-md-offset-2">
@@ -86,7 +89,13 @@
         }
     });
     function loadData(option){
-        $.getJSON(option.url + '?page=1&limit=1', function(justData){
+        var requestUrl = option.url;
+        if(requestUrl.indexOf('?') != -1){
+            requestUrl += '&page=1&limit=1';
+        }else{
+            requestUrl += '?page=1&limit=1';
+        }
+        $.getJSON(requestUrl, function(justData){
             $('#demo').pagination({
                 dataSource: option.url,
                 locator: 'rows',
@@ -98,7 +107,9 @@
                         $('.data-container').html('<div class="text-center">加载数据中</div>');
                     }
                 },
-                callback: option.callback
+                callback: option.callback,
+                showGoInput: true,
+                showGoButton: true
             });
         });
     }

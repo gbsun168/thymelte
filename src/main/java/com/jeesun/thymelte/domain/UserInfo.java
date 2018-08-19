@@ -1,13 +1,14 @@
 package com.jeesun.thymelte.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by simon on 2016/8/13.
  */
 @Table(name = "user_info")
 @Entity
-public class UserInfo {
+public class UserInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

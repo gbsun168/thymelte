@@ -29,7 +29,10 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserEntity userDetails = (UserEntity) authentication.getPrincipal();
-        LogLogin logLogin = new LogLogin(userDetails.getUsername(), new Date(), IpUtil.getIpAddr(request));
+        LogLogin logLogin = new LogLogin();
+        logLogin.setUsername(userDetails.getUsername());
+        logLogin.setCreateTime(new Date());
+        logLogin.setIp(IpUtil.getIpAddr(request));
         logLogin = logLoginRepository.save(logLogin);
         logger.info(JSON.toJSONString(logLogin));
 

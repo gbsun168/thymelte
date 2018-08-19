@@ -93,7 +93,7 @@ public class UserController {
         String sid = UuidUtil.getUUID();
         QrCode qrCode = new QrCode();
         qrCode.setSid(sid);
-        qrCode.setOk(false);
+        qrCode.setIsOk(false);
         qrCodeRepository.save(qrCode);
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -108,7 +108,7 @@ public class UserController {
     public ResultMsg loopCheck(@PathVariable String sid,
                                HttpServletRequest request){
         QrCode qrCode = qrCodeRepository.findBySid(sid);
-        if (qrCode.getOk()){
+        if (qrCode.getIsOk()){
             //扫码成功了之后，要做什么
             UsernameTokenAuthenticationToken authToken = new UsernameTokenAuthenticationToken(qrCode.getUsername(), qrCode.getToken(), sid);
             try{
@@ -178,7 +178,7 @@ public class UserController {
             logger.info(userDomain);
 
             Authority authority = new Authority();
-            authority.setUsername(username);
+            authority.setUserId(userDomain.getId());
             authority.setAuthority("ROLE_USER");
             authority = authorityRepository.save(authority);
 
@@ -217,7 +217,7 @@ public class UserController {
         ResultMsg resultMsg = checkSidAndId(sid, id);
 
         if(200 == resultMsg.getCode()){
-            ResetPasswordInfo resetPasswordInfo = (ResetPasswordInfo) resultMsg.getData();
+            ResetPwdInfo resetPasswordInfo = (ResetPwdInfo) resultMsg.getData();
 
             UserDomain userDomain = userDomainRepository.findById(resetPasswordInfo.getUserId());
 
@@ -246,7 +246,7 @@ public class UserController {
             userDomain.setPassword(new BCryptPasswordEncoder(11).encode(newPwd));
             userDomain = userDomainRepository.save(userDomain);
 
-            ResetPasswordInfo resetPasswordInfo = (ResetPasswordInfo) resultMsg.getData();
+            ResetPwdInfo resetPasswordInfo = (ResetPwdInfo) resultMsg.getData();
             resetPasswordInfo.setValid(false);
             resetPasswordInfo = resetPasswordInfoRepository.save(resetPasswordInfo);
 
@@ -322,9 +322,9 @@ public class UserController {
             String digitalSignature = DigestUtils.md5Hex(sb.toString());
 
             //保存重置密码的邮件信息
-            ResetPasswordInfo resetPasswordInfo = resetPasswordInfoRepository.getByUserId(userDomain.getId());
+            ResetPwdInfo resetPasswordInfo = resetPasswordInfoRepository.getByUserId(userDomain.getId());
             if(null == resetPasswordInfo){
-                resetPasswordInfo = new ResetPasswordInfo();
+                resetPasswordInfo = new ResetPwdInfo();
             }
             resetPasswordInfo.setUserId(userDomain.getId());
             resetPasswordInfo.setExpiresIn(expiresIn);
@@ -377,7 +377,7 @@ public class UserController {
             return new ResultMsg(404, "请求的链接不正确,请重新操作。");
         }
 
-        ResetPasswordInfo resetPasswordInfo = resetPasswordInfoRepository.getByUserId(id);
+        ResetPwdInfo resetPasswordInfo = resetPasswordInfoRepository.getByUserId(id);
 
         if (null == resetPasswordInfo){
             logger.info("请求的链接不正确,请重新操作。");
@@ -406,7 +406,7 @@ public class UserController {
             return new ResultMsg(404, "请求的链接不正确,请重新操作。");
         }
 
-        if(!resetPasswordInfo.isValid()){
+        if(!resetPasswordInfo.getValid()){
             logger.info("您已通过该链接修改密码，该链接已失效");
             return new ResultMsg(404, "您已通过该链接修改密码，该链接已失效");
         }

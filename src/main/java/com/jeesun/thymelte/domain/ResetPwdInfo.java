@@ -9,16 +9,17 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 * @author SimonSun
-* @create 2018-08-18 00:41:52
+* @create 2018-08-17 23:33:01
 **/
-@ApiModel(description = "NewsTag")
+@ApiModel(description = "ResetPwdInfo")
 @Data
 @Entity
-@Table(name="news_tag")
-public class NewsTag implements Serializable{
+@Table(name="reset_pwd_info")
+public class ResetPwdInfo implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,11 +28,19 @@ public class NewsTag implements Serializable{
     @GenericGenerator(name = "sequenceId", strategy = "com.simon.common.utils.snowflake.SequenceId")
     private Long id;
 
-    @ApiModelProperty(value = "news_info_id")
-    @Column(name = "news_info_id")
-    private Long newsInfoId;
+    @ApiModelProperty(value = "expires_in")
+    @Column(name = "expires_in")
+    private Date expiresIn;
 
-    @ApiModelProperty(value = "tag_id")
-    @Column(name = "tag_id")
-    private Long tagId;
+    @ApiModelProperty(value = "secret_key")
+    @Column(name = "secret_key")
+    private String secretKey;
+
+    @ApiModelProperty(value = "user_id")
+    @Column(name = "user_id")
+    private Long userId;
+
+    @ApiModelProperty(value = "valid")
+    @Column(name = "valid", nullable = false)
+    private Boolean valid;
 }

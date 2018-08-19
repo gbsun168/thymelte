@@ -94,6 +94,8 @@ public class NewsInfoController {
                 .getAuthentication()
                 .getPrincipal();
 
+        logger.info("page = " + page + ", limit = " + limit);
+
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("total", newsInfoRepository.countByUserId(userEntity.getId()));
         if(null != page && null != limit){

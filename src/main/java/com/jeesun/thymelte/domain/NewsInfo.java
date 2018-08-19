@@ -1,87 +1,58 @@
 package com.jeesun.thymelte.domain;
 
+import com.simon.common.utils.SnowflakeGenId;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+import tk.mybatis.mapper.annotation.KeySql;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 新闻资讯
- *
- * @author simon
- * @create 2018-06-06 0:08
- **/
-@Table(name = "news_info")
+* @author SimonSun
+* @create 2018-08-17 23:33:01
+**/
+@ApiModel(description = "NewsInfo")
+@Data
 @Entity
-public class NewsInfo {
+@Table(name="news_info")
+public class NewsInfo implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @KeySql(genId = SnowflakeGenId.class)
+    @GeneratedValue(generator = "sequenceId")
+    @GenericGenerator(name = "sequenceId", strategy = "com.simon.common.utils.snowflake.SequenceId")
     private Long id;
 
-    private Long userId;
-
+    @ApiModelProperty(value = "title")
+    @Column(name = "title")
     private String title;
 
+    @ApiModelProperty(value = "user_id")
+    @Column(name = "user_id")
+    private Long userId;
+
+    @ApiModelProperty(value = "status")
+    @Column(name = "status")
+    private Integer status;
+
+    @ApiModelProperty(value = "content")
+    @Column(name = "content")
     private String content;
 
-    private String imageUrl;//缩略图
+    @ApiModelProperty(value = "image_url")
+    @Column(name = "image_url")
+    private String imageUrl;
 
+    @ApiModelProperty(value = "publish_date")
     @Column(name = "publish_date")
     private Date publishDate;
 
-    private Integer status;//0:草稿, 1:发布, 2:暂停
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Date getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+    @ApiModelProperty(value = "tags")
+    @Column(name = "tags")
+    private String tags;
 }
