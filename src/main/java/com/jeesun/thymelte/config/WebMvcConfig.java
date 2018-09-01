@@ -27,6 +27,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/reset_password").setViewName("reset_password");
         registry.addViewController("/error/404").setViewName("error/404");
         registry.addViewController("/error/500").setViewName("error/500");
+        registry.addViewController("/index_iframe").setViewName("index_iframe");
+        registry.addViewController("/tab_first").setViewName("tab_first");
     }
 
     //项目完成的差不多时，再找时间自定义异常页面。

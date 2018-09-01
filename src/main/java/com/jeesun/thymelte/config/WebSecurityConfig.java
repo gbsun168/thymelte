@@ -37,6 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //logoutSuccessUrl如果设为/login，那么退出后，
         //会重新自动创建session，触发OnLineCountListener的sessionCreated方法，造成在线人数不准。
         http
+                .headers().frameOptions().sameOrigin()
+                .httpStrictTransportSecurity().disable()
+                .and()
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("/index")
                 .failureHandler(new CustomAuthenticationFailureHandler())

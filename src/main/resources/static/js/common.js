@@ -22,7 +22,7 @@ $('.sidebar-menu li').each(function () {
     if(pathName == '' && $(this).children('a').attr('href').indexOf('index') != -1){
         $(this).addClass("active");
         $(this).parents(".treeview").addClass("active");
-    }else if(pathName != ''&& $(this).children('a').attr('href').indexOf(pathName) != -1){
+    }else if(pathName != '' && $(this).children('a').attr('href') && $(this).children('a').attr('href').indexOf(pathName) != -1){
         $(this).addClass("active");
         $(this).parents(".treeview").addClass("active");
     }

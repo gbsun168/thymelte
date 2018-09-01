@@ -27,35 +27,25 @@
     <link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('theme')}" th:class="'hold-transition sidebar-mini fixed ' + ${cookie.getValue()}">
-<div class="wrapper">
+<div>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Page Header
+            <small>Optional description</small>
+        </h1>
 
-    <div th:replace="components/header :: header"></div>
-    <div th:replace="components/sidebar :: sidebar"></div>
+    </section>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper bg-color-white">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Page Header
-                <small>Optional description</small>
-            </h1>
+    <!-- Main content -->
+    <section class="content container-fluid">
 
-        </section>
+        <!--------------------------
+          | Your Page Content Here |
+          -------------------------->
 
-        <!-- Main content -->
-        <section class="content container-fluid">
-
-            <!--------------------------
-              | Your Page Content Here |
-              -------------------------->
-
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <div th:replace="components/footer :: footer"></div>
+    </section>
+    <!-- /.content -->
 </div>
 <!-- ./wrapper -->
 

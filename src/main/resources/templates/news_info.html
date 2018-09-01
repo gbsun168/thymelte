@@ -46,99 +46,88 @@
     </style>
 </head>
 <body th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('theme')}" th:class="'hold-transition sidebar-mini fixed ' + ${cookie.getValue()}">
-<div class="wrapper">
+<div>
+    <section class="content-header">
+        <h1>
+            新闻管理
+            <small>我的新闻列表</small>
+        </h1>
 
-    <div th:replace="components/header :: header"></div>
-    <div th:replace="components/sidebar :: sidebar"></div>
+    </section>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper bg-color-white">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                新闻管理
-                <small>我的新闻列表</small>
-            </h1>
-
-        </section>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-            <div class="row">
-                <div style="text-align: center;"><span class="btn btn-info" id="hint" style="visibility: hidden"></span></div>
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="row">
+            <div style="text-align: center;"><span class="btn btn-info" id="hint" style="visibility: hidden"></span></div>
+        </div>
+        <div class="row" th:fragment="content-table">
+            <div id="toolbar" class="btn-group">
+                <button id="plus" type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+                <button id="edit" type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </button>
+                <button id="minus" type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-minus"></i>
+                </button>
             </div>
-            <div class="row" th:fragment="content-table">
-                <div id="toolbar" class="btn-group">
-                    <button id="plus" type="button" class="btn btn-default">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </button>
-                    <button id="edit" type="button" class="btn btn-default">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </button>
-                    <button id="minus" type="button" class="btn btn-default">
-                        <i class="glyphicon glyphicon-minus"></i>
-                    </button>
-                </div>
-                <table id="table" class="table table-hover"></table>
-            </div>
-            <!-- 模态框（Modal） -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog" style="width: 60%">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">编辑新闻</h4>
+            <table id="table" class="table table-hover"></table>
+        </div>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 60%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">编辑新闻</h4>
+                    </div>
+                    <form role="form" id="form_add">
+                        <div class="modal-body">
+                            <div>
+                                <input type="hidden" name="id" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="title">名称</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="新闻标题">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="file_upload" class="btn btn-default">更换图片</label>
+                                <input id="file_upload" type="file" name="file" multiple style="display:none">
+                                <span class="proportion"></span>
+                                <!-- 上传进度条及状态： -->
+                                <div class="progress" style="width: 100px">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                                    <div class="upstatus" style="margin-top:10px;"></div>
+                                </div>
+                                <!-- 预览框： -->
+                                <div class="preview" style="margin-top:20px;"></div>
+                            </div>
+                            <div id="file_paths"></div>
+
+                            <div class="form-group">
+                                <!--<label for="content">正文</label>
+                                <input type="text" class="form-control" id="content" name="content" placeholder="正文">-->
+                                <label for="content">新闻详情</label>
+                                <!-- Create a tag that we will use as the editable area. -->
+                                <!-- You can use a div tag as well. -->
+                                <textarea id="content" name="content"></textarea>
+                                <!--<input type="hidden" id="content" name="content" placeholder="正文">-->
+                            </div>
                         </div>
-                        <form role="form" id="form_add">
-                            <div class="modal-body">
-                                <div>
-                                    <input type="hidden" name="id" value="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">名称</label>
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="新闻标题">
-                                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" id="commit_change" class="btn btn-primary">提交更改</button>
+                        </div>
+                    </form>
 
-                                <div class="form-group">
-                                    <label for="file_upload" class="btn btn-default">更换图片</label>
-                                    <input id="file_upload" type="file" name="file" multiple style="display:none">
-                                    <span class="proportion"></span>
-                                    <!-- 上传进度条及状态： -->
-                                    <div class="progress" style="width: 100px">
-                                        <div class="progress-bar" role="progressbar" style="width: 0%;"></div>
-                                        <div class="upstatus" style="margin-top:10px;"></div>
-                                    </div>
-                                    <!-- 预览框： -->
-                                    <div class="preview" style="margin-top:20px;"></div>
-                                </div>
-                                <div id="file_paths"></div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
 
-                                <div class="form-group">
-                                    <!--<label for="content">正文</label>
-                                    <input type="text" class="form-control" id="content" name="content" placeholder="正文">-->
-                                    <label for="content">新闻详情</label>
-                                    <!-- Create a tag that we will use as the editable area. -->
-                                    <!-- You can use a div tag as well. -->
-                                    <textarea id="content" name="content"></textarea>
-                                    <!--<input type="hidden" id="content" name="content" placeholder="正文">-->
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                <button type="button" id="commit_change" class="btn btn-primary">提交更改</button>
-                            </div>
-                        </form>
-
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
-
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <div th:replace="components/footer :: footer"></div>
+    </section>
+    <!-- /.content -->
 </div>
 <!-- ./wrapper -->
 
