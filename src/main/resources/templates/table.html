@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:t="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Starter</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/ionicons/2.0.1/css/ionicons.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/AdminLTE/2.4.2/dist/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user-manage.css}">
+    <!--[if lt IE 9]>
+    <script src="/thymelte/webjars/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+    <script src="/thymelte/webjars/respond/1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" th:href="@{/css/select2.css}">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-select/1.13.2/dist/css/bootstrap-select.min.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('theme')}" th:class="'hold-transition sidebar-mini fixed ' + ${cookie.getValue()}">
+<div>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            用户管理
+            <small>封号处理</small>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div>
+            <div id="toolbar" class="btn-group">
+                <button id="plus" type="button" class="btn btn-info">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i> 新增
+                </button>
+                <button id="edit" type="button" class="btn btn-primary">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 修改
+                </button>
+                <button id="minus" type="button" class="btn btn-danger">
+                    <i class="fa fa-minus-square-o" aria-hidden="true"></i> 删除
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div style="text-align: center;"><span class="btn btn-info" id="hint" style="visibility: hidden"></span></div>
+        </div>
+        <div class="form-inline">
+            用户名：<input type="text" name="username" class="form-control">
+            用户下拉列表：<input type="text" name="id" class="form-control">
+            <select class="js-example-basic-single form-control" name="state">
+                <option>请选择</option>
+                <option value="AL">Alabama</option>
+                <option value="WY">Wyoming</option>
+            </select>
+            <select class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <select class="selectpicker" data-live-search="true">
+                <option>Mustard</option>
+                <option>Ketchup</option>
+                <option>Barbecue</option>
+            </select>
+
+            <t:select order="desc" query="users,username" class="form-control"></t:select>
+        </div>
+        <div>
+            <!--<t:list order="desc" query="users,username" root="ol" child="a" start="2" root-class="list-group" child-class="list-group-item"></t:list>-->
+            <t:list query="users,username"></t:list>
+        </div>
+        <table data-toggle="table" data-show-refresh="true" data-pagination="true" data-search="false" data-side-pagination="client">
+            <thead>
+            <tr>
+                <th data-sortable="true" data-field="id">id</th>
+                <th data-field="email">email</th>
+                <th data-field="authority">authority</th>
+                <th data-field="username">username</th>
+                <th data-field="phone">phone</th>
+                <th data-field="enabled">enabled</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${messages}">
+                <td th:text="${item.id}"></td>
+                <td><a href="#" t:saytoplanet="'email, users, id,' + ${item.id}">测试</a></td>
+                <!-- 属性规则：表名,关联字段名[一般是id],显示的字段名 -->
+                <t:col order="desc" data="${item.id}" query="authorities,user_id,authority">demo</t:col>
+                <td th:text="'username=' + ${item.username}"></td>
+                <td th:text="${item.phone}"></td>
+                <td th:text="${item.enabled}">状态</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table data-smart-display="true" data-pagination="true" data-search="true" data-toggle="table" data-url="data" data-page-size="1" data-page-list="[1, 10, 25, 50, 100]" data-detail-view="true" data-detail-formatter="formatTest">
+            <thead>
+            <tr>
+                <th data-sortable="true" data-field="id">Item ID</th>
+                <th data-field="id" data-formatter="formatter"></th>
+                <!--<th data-field="username">Item Name</th>-->
+                <th data-field="phone">Item Price</th>
+            </tr>
+            </thead>
+        </table>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery 3 -->
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/webjars/AdminLTE/2.4.2/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/bootstrap-table.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/locale/bootstrap-table-zh-CN.min.js}"></script>
+
+<!-- tableExport -->
+<script th:src="@{/webjars/bootstrap-table/1.11.1/dist/extensions/export/bootstrap-table-export.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/FileSaver/FileSaver.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/js-xlsx/xlsx.core.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/jsPDF/jspdf.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/libs/html2canvas/html2canvas.min.js}"></script>
+<script th:src="@{/plug-in/tableExport.jquery.plugin/tableExport.js}"></script>
+
+<script th:src="@{/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js}"></script>
+
+<script th:src="@{/webjars/select2/4.0.5/js/select2.min.js}"></script>
+<script th:src="@{/webjars/select2/4.0.5/js/i18n/zh-CN.js}"></script>
+
+<script th:src="@{/webjars/bootstrap-select/1.13.2/dist/js/bootstrap-select.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-select/1.13.2/dist/js/i18n/defaults-zh_CN.min.js}"></script>
+
+<script th:src="@{/js/util.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function formatter(value, row, index, field) {
+        var email = [[${typeUtil.getEmail('email,users,id,2')}]];
+        return 'value=' + email;
+    }
+    /*]]>*/
+</script>
+<script th:inline="javascript">
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            placeholder: 'Select an option'
+        });
+
+        $('.selectpicker').selectpicker();
+
+        $('.list-group-item').on('click', function () {
+            $(this).addClass("active");
+        });
+    });
+
+    function formatTest(index, row, element) {
+        return index + row + element;
+    }
+
+</script>
+</body>
+</html>

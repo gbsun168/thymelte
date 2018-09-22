@@ -52,9 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().ignoringAntMatchers("/druid/*")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**", "/video/**", "/plug-in/**").permitAll()
+                .antMatchers("/img/**", "/js/**", "/css/**", "/webjars/**", "/video/**", "/plug-in/**", "/font/**").permitAll()
                 .antMatchers("/login", "/logout", "/register", "/register_result", "/forget_password", "/reset_password", "/users/sendEmail", "/users/resetPassword", "/users/forgetPwd","/users/check", "/users/resetPwd", "/users/test", "/users/checkExists").permitAll()
-                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**", "/users/register").permitAll()
+                .antMatchers("/just_test", "/upload", "/users/uuid/**", "/users/loopCheck/**", "/users/register", "/hello").permitAll()
                 .antMatchers("/user-manage").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -73,15 +73,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(tokenAuthProvider);
         auth.authenticationProvider(authProvider);
         auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(new BCryptPasswordEncoder(11));
-    }
-
-    /**
-     * 使Thymeleaf的spring security标签生效
-     * 使用办法：html标签内添加xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-     * @return
-     */
-    @Bean
-    public SpringSecurityDialect securityDialect() {
-        return new SpringSecurityDialect();
     }
 }

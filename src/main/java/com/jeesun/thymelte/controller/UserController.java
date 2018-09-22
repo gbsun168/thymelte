@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -129,8 +131,8 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> getUsers(@RequestParam(required = false, defaultValue = "10") Integer limit, @RequestParam(required = false, defaultValue = "0") Integer offset){
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("total", userDomainRepository.countAllByAuthority());
-        resultMap.put("rows", userDomainRepository.findAllByAuthority(offset, limit));
+        resultMap.put("total", userDomainRepository.count());
+        resultMap.put("rows", userDomainRepository.findAll(new PageRequest(offset/limit, limit, Sort.Direction.DESC, "id")).getContent());
 
         return resultMap;
     }

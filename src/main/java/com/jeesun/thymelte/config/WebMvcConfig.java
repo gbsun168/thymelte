@@ -29,6 +29,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/error/500").setViewName("error/500");
         registry.addViewController("/index_iframe").setViewName("index_iframe");
         registry.addViewController("/tab_first").setViewName("tab_first");
+        registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/table").setViewName("table");
+        registry.addViewController("/class_method").setViewName("class_method");
+        registry.addViewController("/index_iframe2").setViewName("index_iframe2");
     }
 
     //项目完成的差不多时，再找时间自定义异常页面。

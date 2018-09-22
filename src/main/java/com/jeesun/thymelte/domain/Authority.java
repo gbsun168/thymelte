@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name="authorities")
-public class Authority implements GrantedAuthority, Serializable {
+public class Authority implements GrantedAuthority, Serializable, Comparable<Authority> {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -30,4 +30,9 @@ public class Authority implements GrantedAuthority, Serializable {
     @ApiModelProperty(value = "authority")
     @Column(name = "authority", nullable = false)
     private String authority;
+
+    @Override
+    public int compareTo(Authority o) {
+        return (int)(this.userId - o.userId);
+    }
 }
