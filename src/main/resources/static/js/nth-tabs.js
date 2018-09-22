@@ -108,7 +108,7 @@
                 var tabContent = [];
                 tabContent.push('<div class="tab-pane '+(fadeIn ? 'animation-fade' : '')+'" id="' + options.id + '">');
                 if(url.length>0){
-                    tabContent.push('<iframe src="'+options.url+'" frameborder="0" name="iframe-'+frameName+'" class="nth-tabs-frame"></iframe>');
+                    tabContent.push('<iframe src="'+options.url+'" frameborder="0" scrolling="0" name="iframe-'+frameName+'" class="nth-tabs-frame" width="100%" style="min-height: 600px;" marginheight="0" onload="this.height=document.body.scrollHeight"></iframe>');
                     frameName++;
                 }else{
                     tabContent.push('<div class="nth-tabs-content">'+options.content+"</div>");

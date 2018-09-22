@@ -4,11 +4,11 @@
  * version:2.0
 */
 
-.nth-tabs {
-	color: #76838f;
-	font-family: "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
-	border: 1px solid #E4EAEC !important;
-}
+/*.nth-tabs {*/
+	/*color: #76838f;*/
+	/*font-family: "Helvetica Neue",Helvetica,Tahoma,Arial,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;*/
+	/*border: 1px solid #E4EAEC !important;*/
+/*}*/
 
 .nth-tabs .page-tabs {
 	width: 100%;
@@ -52,7 +52,7 @@
 }
 .nth-tabs-frame{
 	width:100%;
-	height: calc(100% - 42px);
+	/*height: calc(100% - 42px);*/
 	position: relative;
 	overflow-x: hidden;
 }
